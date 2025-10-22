@@ -154,7 +154,8 @@ VALUES	("president"),
 		("project manager"),
         ("software developer"),
         ("teacher"),
-        ("teacher's assistant");
+        ("teacher's assistant"),
+        ("student");
 
 -- account (email, username, fullname, department_id, position_id, create_date)
 INSERT INTO `account`(email, username, fullname, department_id, position_id)
@@ -165,7 +166,12 @@ VALUES	("williamd@example.com", "willd", "William Doe", 1, 1),
         ("alicew@example.com", "alicew", "Alice Wong", 7, 9), 
 		("hanhn@example.com", "hanhn", "Hanh Nguyen", 9, 9),
         ("emilyp@example.com", "emilyp", "Emily Parisien", 8, 10),
-        ("nicoleb@example.com", "nicoleb", "Nicole Bayley", 8, 11);
+        ("nicoleb@example.com", "nicoleb", "Nicole Bayley", 8, 11),
+        ("clayj@example.com", "clayj", "Clayton John", 8, 10),
+        ("jaredm@example.com", "jaredm", "Jared Miller", 8, 12),
+        ("sheilab@example.com", "sheilab", "Sheila Brown", 8, 12),
+        ("bayleya@example.com", "bayleym", "Bayley Anderson", 8, 12),
+        ("aliciad@example.com", "aliciad", "Alicia Davis", 8, 12);
 
 -- group (group_id, group_name, creator_id, create_date)
 INSERT INTO `group`(group_name, creator_id)
@@ -174,7 +180,12 @@ VALUES	("General Meetings", 1),
         ("Cyber Security Awareness Meeting", 3),
         ("Administration", 1),
 		("Project Brainstorming Session", 3),
-        ("Teachers", 7);
+        ("Teachers", 7),
+        ("Student Resources", 10), 
+        ("Study Group", 11),
+        ("Computer Science Group", 11),
+        ("English Club", 13), 
+        ("Extracurricular Activity Org", 12);
 
 -- group_account (group_id, account_id, join_date)
 INSERT INTO `group_account`(group_id, account_id)
@@ -185,7 +196,13 @@ VALUES	(1, 1),
         (2, 1),
         (2, 2),
         (2, 3),
-        (2, 4);
+        (2, 4),
+        (10, 11), 
+        (10, 12),
+        (11, 10),
+        (11, 11),
+        (12, 10),
+        (12, 13);
 
 -- type_question (type_id, type_name)
 INSERT INTO `type_question`(type_name)
@@ -194,7 +211,11 @@ VALUES	("multiple choice"),
         ("true or false"),
         ("match answers"),
         ("fill in the blank"),
-		("essay");
+		("essay"),
+        ("open question"),
+        ("oral"),
+        ("long answer"),
+        ("practical");
 
 -- category_question (category_id, category_name)
 INSERT INTO `category_question`(category_name)
@@ -204,7 +225,13 @@ VALUES	("java"),
         ("mongodb"),
         ("linux"),
         ("git"),
-        ("mysql");
+        ("mysql"),
+        ("javascript"),
+        ("english"),
+        ("rust"),
+        ("artifical intelligence"),
+        ("cloud computing"),
+        ("game development");
 
 -- question (question_id, content, category_id, type_id, creator_id, create_date)
 INSERT INTO `question`(content, category_id, type_id, creator_id)
@@ -212,7 +239,12 @@ VALUES	("What is the correct syntax to output \"Hello, World!\" in Java?", 1, 1,
 		("Is Java short for JavaScript?", 1, 3, 7),
         ("What kind of database is MongoDB?", 4, 1, 8),
         ("What is a Table called in MongoDB?", 4, 1, 7),
-        ("Are Primary Keys nullable?", 7, 3, 8);
+        ("Are Primary Keys nullable?", 7, 3, 8),
+        ("Describe a challenging cloud project you've worked on. What were the key challenges, and how did you overcome them?", 12, 6, 8),
+        ("What is cloud computing?", 12, 2, 8),
+        ("How to push a local git repository to remote?", 6, 2, 7),
+        ("Which of the commands below will create a new git branch?", 6, 1, 8),
+        ("Which Linux command creates a new file?", 5, 1, 8);
 
 -- answer (answer_id, content, question_id, is_correct)
 INSERT INTO `answer`(content, question_id, is_correct)
@@ -220,15 +252,34 @@ VALUES	("System.out.println(\"Hello, World!\");", 1, "true"),
 		("echo(\"Hello, World!\");", 1, "false"),
         ("Schema", 4, "false"),
         ("Collection", 4, "true"),
-        ("No", 5, "true"); 
-
+        ("No", 5, "true"),
+        ("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget lacus et risus varius gravida. 
+        Nullam at fermentum leo. Aliquam erat volutpat. Vivamus blandit et lorem ac efficitur. 
+        Vestibulum a urna risus. Vivamus tincidunt felis id magna fringilla tristique. 
+        Suspendisse non elementum mi. Quisque eget libero eu ligula placerat finibus. 
+        Vivamus urna sapien, faucibus non semper sed, feugiat et nunc. 
+        Quisque sit amet nibh fringilla, gravida arcu ac, aliquet diam. 
+        Aenean a dui laoreet, condimentum urna at, sollicitudin ante. 
+        Nulla imperdiet varius interdum. Integer gravida felis a turpis rhoncus, eu pretium metus consequat. 
+        Aenean vestibulum arcu orci, in bibendum orci efficitur a. Nunc sit amet pulvinar orci. 
+        Pellentesque magna ante, ultricies sed mattis ut, varius ut erat.", 6, "true"),
+		("Cloud computing is when we use on-premise servers.", 7, "false"),
+        ("git push origin main", 8, "true"),
+        ("git create new branch \\"new_branch\\"", 8, "false"),
+        ("touch new_file", 9, "true");
+        
 -- exam (exam_id, code, title, category_id, duration, creator_id, create_date)
 INSERT INTO `exam`(code, title, category_id, duration, creator_id)
 VALUES	("COMP1011", "Java Programming Basics Midterm", 1, 3600, 7),
 		("COMP1022", "Linux Operating System 101", 5, 1200, 8),
         ("COMP0101", "Serverless Databases 101", 4, 2400, 8),
         ("COMP2012", "Relational Databases", 7, 3600, 7),
-        ("COMP2211", "Java Concurrency in Practice", 1, 3600, 7);
+        ("COMP2211", "Java Concurrency in Practice", 1, 3600, 7), 
+        ("COMP1302", "Cloud Computing Basics", 6, 3600, 8),
+        ("COMP3030", "Vertical and Horizontal Scaling in the Cloud", 6, 3600, 8),
+        ("COMP2240", "Version Control with Git", 7, 3600, 7),
+        ("COMP1091", "Collaborative Development and CI/CD", 7, 3600, 8),
+        ("GAME1010", "Game Development Basics in Unity", 13, 3600, 7);
 
 -- exam_question (exam_id, question_id)
 INSERT INTO `exam_question`(exam_id, question_id)
@@ -236,6 +287,11 @@ VALUES	(1, 1),
 		(1, 2),
         (3, 3),
         (3, 4),
-        (4, 5);
+        (4, 5),
+        (6, 6),
+        (6, 7),
+        (8, 8),
+        (9, 9),
+        (2, 10);
         
         
