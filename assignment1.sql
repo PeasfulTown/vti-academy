@@ -21,12 +21,12 @@ DROP TABLE IF EXISTS `type_question`;
 
 CREATE TABLE `department`(
 	department_id	SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    department_name	ENUM("sales", "marketing", "information-technology", "english", "history") NOT NULL UNIQUE KEY
+    department_name	VARCHAR(30) NOT NULL UNIQUE KEY
 );
 
 CREATE TABLE `position`(
 	position_id		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    position_name	ENUM("dev", "test", "scrum-master", "pm") NOT NULL UNIQUE KEY
+    position_name	VARCHAR(35) NOT NULL UNIQUE KEY
 );
 
 CREATE TABLE `account`(
@@ -46,7 +46,7 @@ CREATE TABLE `account`(
 
 CREATE TABLE `group`(
 	group_id		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    group_name		VARCHAR(30) NOT NULL,
+    group_name		VARCHAR(40) NOT NULL,
     creator_id		SMALLINT UNSIGNED NOT NULL,
     create_date		DATETIME DEFAULT NOW() NOT NULL,
     
@@ -68,7 +68,7 @@ CREATE TABLE `group_account`(
 
 CREATE TABLE `type_question`(
 	type_id		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    type_name	ENUM('essay', 'multiple-choice') NOT NULL
+    type_name	VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE `category_question`(
@@ -96,7 +96,7 @@ CREATE TABLE `answer`(
 	answer_id		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     content			TEXT NOT NULL,
     question_id		SMALLINT UNSIGNED NOT NULL,
-    is_correct		ENUM("true", "false", "undecided") DEFAULT "undecided" NOT NULL,
+    is_correct		ENUM("true", "false") NOT NULL,
     
     FOREIGN KEY(question_id)
 		REFERENCES `question`(question_id)
@@ -132,36 +132,68 @@ CREATE TABLE `exam_question`(
 
 -- department (department_name) 
 INSERT INTO `department`(department_name)
-VALUES	("information-technology"),
+VALUES	("administration"),
+        ("security"),
+        ("human resources"),
+        ("financial accounting"),
 		("sales"),
-		("marketing");
+		("marketing"),
+        ("research and development"),
+        ("education"),
+        ("information technology");
 
 -- position (position_name)
 INSERT INTO `position`(position_name)
-VALUES	("dev"),
-		("test"),
-		("scrum-master"),
-        ("pm");
+VALUES	("president"),
+		("vice president"),
+        ("administrative assistant"),
+		("chief operation officer"),
+		("accountant"),
+		("marketing manager"),
+        ("sales representative"),
+		("project manager"),
+        ("software developer"),
+        ("teacher"),
+        ("teacher's assistant");
 
 -- account (email, username, fullname, department_id, position_id, create_date)
 INSERT INTO `account`(email, username, fullname, department_id, position_id)
-VALUES	("johns@example.com", "johns", "John Smith", 3, 4),
-		("janes@example.com", "janes", "Jane Smith", 2, 3),
-		("hanhn@example.com", "hanhn", "Hanh Nguyen", 3, 1);
+VALUES	("williamd@example.com", "willd", "William Doe", 1, 1),
+		("joes@example.com", "joes", "Joe Schmoe", 1, 2),
+		("johns@example.com", "johns", "John Smith", 7, 8),
+		("janes@example.com", "janes", "Jane Smith", 7, 9),
+        ("alicew@example.com", "alicew", "Alice Wong", 7, 9), 
+		("hanhn@example.com", "hanhn", "Hanh Nguyen", 9, 9),
+        ("emilyp@example.com", "emilyp", "Emily Parisien", 8, 10),
+        ("nicoleb@example.com", "nicoleb", "Nicole Bayley", 8, 11);
 
 -- group (group_id, group_name, creator_id, create_date)
 INSERT INTO `group`(group_name, creator_id)
-VALUES	("Project Brainstorming Session", 1);
+VALUES	("General Meetings", 1),
+		("Quarterly Financials Review", 4),
+        ("Cyber Security Awareness Meeting", 3),
+        ("Administration", 1),
+		("Project Brainstorming Session", 3),
+        ("Teachers", 7);
 
 -- group_account (group_id, account_id, join_date)
 INSERT INTO `group_account`(group_id, account_id)
 VALUES	(1, 1),
 		(1, 2),
-        (1, 3);
+        (1, 3),
+        (1, 4),
+        (2, 1),
+        (2, 2),
+        (2, 3),
+        (2, 4);
 
 -- type_question (type_id, type_name)
 INSERT INTO `type_question`(type_name)
-VALUES	("multiple-choice"),
+VALUES	("multiple choice"),
+		("short answer"),
+        ("true or false"),
+        ("match answers"),
+        ("fill in the blank"),
 		("essay");
 
 -- category_question (category_id, category_name)
@@ -169,27 +201,41 @@ INSERT INTO `category_question`(category_name)
 VALUES	("java"),
 		(".net"),
 		("go"),
-        ("mongodb");
+        ("mongodb"),
+        ("linux"),
+        ("git"),
+        ("mysql");
 
 -- question (question_id, content, category_id, type_id, creator_id, create_date)
 INSERT INTO `question`(content, category_id, type_id, creator_id)
-VALUES	("What is the correct syntax to output \"Hello, World!\" in Java?", 1, 1, 1),
-		("Is Java short for JavaScript?", 1, 1, 1),
-        ("What kind of database is MongoDB?", 4, 1, 1),
-        ("What is a Table called in MongoDB?", 4, 1, 1);
+VALUES	("What is the correct syntax to output \"Hello, World!\" in Java?", 1, 1, 7),
+		("Is Java short for JavaScript?", 1, 3, 7),
+        ("What kind of database is MongoDB?", 4, 1, 8),
+        ("What is a Table called in MongoDB?", 4, 1, 7),
+        ("Are Primary Keys nullable?", 7, 3, 8);
 
 -- answer (answer_id, content, question_id, is_correct)
 INSERT INTO `answer`(content, question_id, is_correct)
 VALUES	("System.out.println(\"Hello, World!\");", 1, "true"),
 		("echo(\"Hello, World!\");", 1, "false"),
         ("Schema", 4, "false"),
-        ("Collection", 4, "true"); 
+        ("Collection", 4, "true"),
+        ("No", 5, "true"); 
 
 -- exam (exam_id, code, title, category_id, duration, creator_id, create_date)
 INSERT INTO `exam`(code, title, category_id, duration, creator_id)
-VALUES	("COMP1011", "Java Programming Basics", 1, 3600, 1);
+VALUES	("COMP1011", "Java Programming Basics Midterm", 1, 3600, 7),
+		("COMP1022", "Linux Operating System 101", 5, 1200, 8),
+        ("COMP0101", "Serverless Databases 101", 4, 2400, 8),
+        ("COMP2012", "Relational Databases", 7, 3600, 7),
+        ("COMP2211", "Java Concurrency in Practice", 1, 3600, 7);
 
 -- exam_question (exam_id, question_id)
 INSERT INTO `exam_question`(exam_id, question_id)
 VALUES	(1, 1),
-		(1, 2);
+		(1, 2),
+        (3, 3),
+        (3, 4),
+        (4, 5);
+        
+        
