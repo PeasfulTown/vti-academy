@@ -34,13 +34,17 @@ VALUES	("Alice Wong", "2000-03-28", "female", 15, 13, 40, "DTN", "No Comment", "
 SELECT * FROM trainee;
 
 -- QUESTION 2
-SELECT trainee_id, full_name, MONTH(birth_date) as birth_month, gender, et_iq, et_gmath, et_english, training_class, evaluation_notes, vti_account
-FROM `trainee`
-WHERE et_iq + et_gmath>=20
-AND et_iq>=8
-AND et_gmath>=8
-AND et_english>=18
-ORDER BY birth_month;
+SELECT COUNT(*) as passing_students_count, GROUP_CONCAT(full_name) AS student_names, MONTH(birth_date) as birth_month
+FROM (
+	SELECT * 
+    FROM `trainee`
+    WHERE et_iq + et_gmath>=20
+    AND et_iq>=8
+    AND et_gmath>=8
+    AND et_english>=18
+    ) as t
+GROUP BY MONTH(birth_date)
+ORDER BY MONTH(birth_date);
 
 -- QUESTION 3
  SELECT trainee_id, full_name, TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) AS age, gender, et_iq, et_gmath, et_english, training_class, evaluation_notes, vti_account 
