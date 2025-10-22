@@ -1,26 +1,34 @@
-CREATE DATABASE fresher_training_management;
+DROP DATABASE IF EXISTS fresher_training_management;
+CREATE DATABASE IF NOT EXISTS fresher_training_management;
 USE fresher_training_management;
 
 DROP TABLE IF EXISTS trainee;
 
 CREATE TABLE IF NOT EXISTS trainee (
-	trainee_id			INT PRIMARY KEY AUTO_INCREMENT,
-    full_name			VARCHAR(50),
-    birth_date 			DATE,
-    gender				ENUM('male', 'female', 'unknown'),
-    et_iq				INT CHECK (0 < et_iq AND et_iq < 20),
-    et_gmath			INT CHECK (0 < et_gmath AND et_gmath < 20),
-    et_english			INT CHECK (0 < et_english AND et_english < 50),
+	trainee_id			SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    full_name			VARCHAR(50) NOT NULL,
+    birth_date 			DATE DEFAULT (CURRENT_DATE()) NOT NULL,
+    gender				ENUM('male', 'female', 'unknown') NOT NULL, 
+    et_iq				TINYINT UNSIGNED CHECK (0 <= et_iq AND et_iq <= 20),
+    et_gmath			TINYINT UNSIGNED CHECK (0 <= et_gmath AND et_gmath <= 20),
+    et_english			TINYINT UNSIGNED CHECK (0 <= et_english AND et_english <= 50),
     training_class		CHAR(3),
-    evaluation_notes	TEXT,
-    vti_account 		VARCHAR(50) NOT NULL UNIQUE
+    evaluation_notes	MEDIUMTEXT
 );
 
--- acceptable record
-INSERT INTO trainee VALUES (0, "Alice Wong", current_date(), "female", 15, 10, 40, "DTN", "No Comment", "alicew");
--- gender out of bounds 
-INSERT INTO trainee VALUES (1, "John Smith", current_date(), "n/a", 15, 10, 40, "DTN", "No Comment", "johns");
--- et_gmath out of bounds
-INSERT INTO trainee VALUES (2, "Adrian Smith", current_date(), "unknown", 15, 10, 100, "DTN", "No Comment", "adrians");
--- vti_account not unique
-INSERT INTO trainee VALUES (3, "Emily", current_date(), "female", 15, 10, 40, "DTN", "No Comment", "alicew");
+ALTER TABLE `trainee`
+ADD COLUMN vti_account VARCHAR(50) NOT NULL UNIQUE KEY;
+
+INSERT INTO trainee (full_name, birth_date, gender, et_iq, et_gmath, et_english, training_class, evaluation_notes, vti_account)
+VALUES	("Alice Wong", "2000-03-28", "female", 15, 10, 40, "DTN", "No Comment", "alicew"),
+		("John Smith", "1989-08-09", "male", 15, 10, 40, "DTN", "No Comment", "johns"),
+		("Adrian Smith", "1997-03-14", "unknown", 15, 10, 50, "DTN", "No Comment", "adrians"),
+		("Shane Alexander", "1990-01-27", "female", 15, 10, 40, "DTN", "No Comment", "shanea"),
+        ("Cariane Doe", "1996-06-28", "female", 20, 10, 30, "DTN", "No Comment", "carianed"),
+        ("Alicia Davis", "2001-02-17", "female", 19, 18, 47, "DTN", "No Comment", "aliciad"),
+        ("William Bill", "1998-07-21", "male", 2, 10, 38, "DTN", "No Comment", "williamb"),
+        ("Ali Ince", "1993-09-27", "male", 9, 18, 37, "DTN", "No Comment", "alii"),
+        ("Bayley Miller", "1989-12-16", "male", 15, 10, 40, "DTN", "No Comment", "bayleym"),
+        ("Nicole Palmer", "1990-09-20", "female", 15, 10, 40, "DTN", "No Comment", "nicolep");
+        
+SELECT * FROM trainee;
