@@ -20,11 +20,11 @@ ALTER TABLE `trainee`
 ADD COLUMN vti_account VARCHAR(50) NOT NULL UNIQUE KEY;
 
 INSERT INTO trainee (full_name, birth_date, gender, et_iq, et_gmath, et_english, training_class, evaluation_notes, vti_account)
-VALUES	("Alice Wong", "2000-03-28", "female", 15, 10, 40, "DTN", "No Comment", "alicew"),
-		("John Smith", "1989-08-09", "male", 15, 10, 40, "DTN", "No Comment", "johns"),
-		("Adrian Smith", "1997-03-14", "unknown", 15, 10, 50, "DTN", "No Comment", "adrians"),
+VALUES	("Alice Wong", "2000-03-28", "female", 15, 13, 40, "DTN", "No Comment", "alicew"),
+		("John Smith", "1989-08-09", "male", 15, 12, 40, "DTN", "No Comment", "johns"),
+		("Adrian Smith", "1997-03-14", "unknown", 15, 12, 50, "DTN", "No Comment", "adrians"),
 		("Shane Alexander", "1990-01-27", "female", 15, 10, 40, "DTN", "No Comment", "shanea"),
-        ("Cariane Doe", "1996-06-28", "female", 20, 10, 30, "DTN", "No Comment", "carianed"),
+        ("Cariane Doe", "1996-06-28", "female", 20, 14, 39, "DTN", "No Comment", "carianed"),
         ("Alicia Davis", "2001-02-17", "female", 19, 18, 47, "DTN", "No Comment", "aliciad"),
         ("William Bill", "1998-07-21", "male", 2, 10, 38, "DTN", "No Comment", "williamb"),
         ("Ali Ince", "1993-09-27", "male", 9, 18, 37, "DTN", "No Comment", "alii"),
@@ -32,3 +32,39 @@ VALUES	("Alice Wong", "2000-03-28", "female", 15, 10, 40, "DTN", "No Comment", "
         ("Nicole Palmer", "1990-09-20", "female", 15, 10, 40, "DTN", "No Comment", "nicolep");
         
 SELECT * FROM trainee;
+
+-- QUESTION 2
+SELECT trainee_id, full_name, MONTH(birth_date) as birth_month, gender, et_iq, et_gmath, et_english, training_class, evaluation_notes, vti_account
+FROM `trainee`
+WHERE et_iq + et_gmath>=20
+AND et_iq>=8
+AND et_gmath>=8
+AND et_english>=18
+ORDER BY birth_month;
+
+-- QUESTION 3
+ SELECT trainee_id, full_name, TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) AS age, gender, et_iq, et_gmath, et_english, training_class, evaluation_notes, vti_account 
+ FROM `trainee` 
+ WHERE	LENGTH(full_name)=(SELECT MAX(LENGTH(full_name))
+		FROM `trainee`);
+
+-- QUESTION 4
+SELECT * 
+FROM `trainee`
+WHERE et_iq + et_gmath>=20
+AND et_iq>=8
+AND et_gmath>=8
+AND et_english>=18;
+
+-- QUESTION 5
+DELETE FROM `trainee`
+WHERE trainee_id IN (
+	SELECT t.trainee_id FROM (
+		SELECT trainee_id FROM `trainee` WHERE trainee_id=3
+	) as t
+);
+
+-- QUESTION 6
+UPDATE `trainee`
+SET training_class="2"
+WHERE trainee_id=5;
