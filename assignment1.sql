@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS db_testing_system;
 CREATE DATABASE IF NOT EXISTS db_testing_system;
 USE db_testing_system;
 
@@ -159,11 +160,11 @@ VALUES	("president"),
 
 -- account (email, username, fullname, department_id, position_id, create_date)
 INSERT INTO `account`(email, username, fullname, department_id, position_id)
-VALUES	("williamd@example.com", "willd", "William Doe", 1, 1),
-		("joes@example.com", "joes", "Joe Schmoe", 1, 2),
-		("johns@example.com", "johns", "John Smith", 7, 8),
-		("janes@example.com", "janes", "Jane Smith", 7, 9),
-        ("alicew@example.com", "alicew", "Alice Wong", 7, 9), 
+VALUES	("williamd@example.com", "willd", "William Doe", 3, 1),
+		("joes@example.com", "joes", "Joe Schmoe", 3, 2),
+		("johns@example.com", "johns", "John Smith", 3, 8),
+		("janes@example.com", "janes", "Jane Smith", 2, 9),
+        ("alicew@example.com", "alicew", "Alice Wong", 2, 9), 
 		("hanhn@example.com", "hanhn", "Hanh Nguyen", 9, 9),
         ("emilyp@example.com", "emilyp", "Emily Parisien", 8, 10),
         ("nicoleb@example.com", "nicoleb", "Nicole Bayley", 8, 11),
@@ -171,7 +172,8 @@ VALUES	("williamd@example.com", "willd", "William Doe", 1, 1),
         ("jaredm@example.com", "jaredm", "Jared Miller", 8, 12),
         ("sheilab@example.com", "sheilab", "Sheila Brown", 8, 12),
         ("bayleya@example.com", "bayleym", "Bayley Anderson", 8, 12),
-        ("aliciad@example.com", "aliciad", "Alicia Davis", 8, 12);
+        ("aliciad@example.com", "aliciad", "Alicia Davis", 8, 12),
+        ("dinhd@example.com", "dinhd", "Dinh Do", 8, 12);
 
 -- group (group_id, group_name, creator_id, create_date)
 INSERT INTO `group`(group_name, creator_id)
@@ -186,6 +188,10 @@ VALUES	("General Meetings", 1),
         ("Computer Science Group", 11),
         ("English Club", 13), 
         ("Extracurricular Activity Org", 12);
+        
+-- Group joined before 2019
+INSERT INTO `group`(group_name, creator_id, create_date)
+VALUE ("Math Club", 12, "2015-04-26 08:15:50");
 
 -- group_account (group_id, account_id, join_date)
 INSERT INTO `group_account`(group_id, account_id)
@@ -202,7 +208,8 @@ VALUES	(1, 1),
         (10, 10),
         (10, 11),
         (11, 10),
-        (11, 13);
+        (11, 13),
+        (2, 5);
 
 -- type_question (type_id, type_name)
 INSERT INTO `type_question`(type_name)
@@ -244,7 +251,8 @@ VALUES	("What is the correct syntax to output \"Hello, World!\" in Java?", 1, 1,
         ("What is cloud computing?", 12, 2, 8),
         ("How to push a local git repository to remote?", 6, 2, 7),
         ("Which of the commands below will create a new git branch?", 6, 1, 8),
-        ("Which Linux command creates a new file?", 5, 1, 8);
+        ("Which Linux command creates a new file?", 5, 1, 8),
+        ("Question 1", 1, 1, 1);
 
 -- answer (answer_id, content, question_id, is_correct)
 INSERT INTO `answer`(content, question_id, is_correct)
@@ -280,6 +288,9 @@ VALUES	("COMP1011", "Java Programming Basics Midterm", 1, 3600, 7),
         ("COMP2240", "Version Control with Git", 7, 3600, 7),
         ("COMP1091", "Collaborative Development and CI/CD", 7, 3600, 8),
         ("GAME1010", "Game Development Basics in Unity", 13, 3600, 7);
+        
+INSERT INTO `exam`(code, title, category_id, duration, creator_id, create_date)
+VALUE	("ENG1001", "English For Everyday Conversations", 9, 4800, 8, "2018-08-29 00:00:00");
 
 -- exam_question (exam_id, question_id)
 INSERT INTO `exam_question`(exam_id, question_id)
@@ -293,5 +304,3 @@ VALUES	(1, 1),
         (8, 8),
         (9, 9),
         (2, 10);
-        
-        
