@@ -73,7 +73,7 @@ CREATE TABLE `type_question`(
 
 CREATE TABLE `category_question`(
 	category_id		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    category_name	VARCHAR(15) NOT NULL UNIQUE KEY
+    category_name	VARCHAR(25) NOT NULL UNIQUE KEY
 );
 
 CREATE TABLE `question` (
@@ -105,7 +105,7 @@ CREATE TABLE `answer`(
 CREATE TABLE `exam`(
 	exam_id			SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     code			CHAR(8) NOT NULL,
-    title			VARCHAR(40) NOT NULL,
+    title			VARCHAR(50) NOT NULL,
     category_id		SMALLINT UNSIGNED NOT NULL,
     duration		MEDIUMINT UNSIGNED,
     creator_id		SMALLINT UNSIGNED NOT NULL,
@@ -197,12 +197,12 @@ VALUES	(1, 1),
         (2, 2),
         (2, 3),
         (2, 4),
-        (10, 11), 
-        (10, 12),
+        (9, 11), 
+        (9, 12),
+        (10, 10),
+        (10, 11),
         (11, 10),
-        (11, 11),
-        (12, 10),
-        (12, 13);
+        (11, 13);
 
 -- type_question (type_id, type_name)
 INSERT INTO `type_question`(type_name)
@@ -265,7 +265,7 @@ VALUES	("System.out.println(\"Hello, World!\");", 1, "true"),
         Pellentesque magna ante, ultricies sed mattis ut, varius ut erat.", 6, "true"),
 		("Cloud computing is when we use on-premise servers.", 7, "false"),
         ("git push origin main", 8, "true"),
-        ("git create new branch \\"new_branch\\"", 8, "false"),
+        ("git create new branch \"new_branch\" ", 8, "false"),
         ("touch new_file", 9, "true");
         
 -- exam (exam_id, code, title, category_id, duration, creator_id, create_date)
