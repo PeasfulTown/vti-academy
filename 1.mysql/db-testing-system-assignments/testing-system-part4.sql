@@ -78,12 +78,37 @@ WHERE no_of_people = (
 );
 
 -- QUESTION 11 
--- department, account, position
--- OUT: number of dev, number of test, scrum master, pm for every department
-SELECT d.department_id, d.department_name, a.account_id, p.position_id, p.position_name
-FROM department d
-LEFT JOIN `account` a
-ON d.department_id = a.department_id
-RIGHT JOIN `position` p
-ON a.position_id = p.position_id
-WHERE p.position_name IN ("accountant", "developer", "teacher");
+WITH tbl
+AS (
+	SELECT d.department_name, p.position_name
+    FROM department d
+    LEFT JOIN `account` a
+    ON d.department_id = a.department_id
+    LEFT JOIN position p
+    ON a.position_id = p.position_id
+    WHERE p.position_name IN ("pm", "dev", "pm")
+)
+SELECT DISTINCT t.department_name, dc.no_of_devs, pmc.no_of_pm, sc.no_of_scrum
+FROM tbl t
+LEFT JOIN (
+	SELECT department_name, COUNT(*) AS no_of_devs
+    FROM tbl
+    GROUP BY department_name, position_name
+    HAVING position_name = "dev"
+) AS dc
+ON t.department_name = dc.department_name
+LEFT JOIN (
+	SELECT department_name, COUNT(*) AS no_of_pm
+    FROM tbl
+    GROUP BY department_name, position_name
+    HAVING position_name = "pm"
+) AS pmc
+ON t.department_name = pmc.department_name
+LEFT JOIN (
+	SELECT department_name, COUNT(*) AS no_of_scrum_masters
+    FROM tbl
+    GROUP BY department_name, position_name
+    HAVING position_name = "scrum master"
+) AS smc
+ON t.department_name = smc.department_name;
+
