@@ -7,7 +7,6 @@ LEFT JOIN `department` d
 ON a.department_id = d.department_id;
 
 -- QUESTION 2
--- TODO: edit some creation dates since all current creation dates are NOW()
 SELECT * 
 FROM `account`
 WHERE create_date > "2010-12-20 00:00:00"; 
@@ -29,7 +28,20 @@ HAVING no_of_members >= 3;
 
 -- QUESTION 5
 	-- TODO: MOST COMMONLY USED EXAM QUESTIONS (MAX COUNT)
-    
+WITH tbl
+AS (
+	SELECT q.content AS question, COUNT(*) AS times_used
+	FROM question q
+	RIGHT JOIN exam_question eq 
+	ON q.question_id = eq.question_id
+	GROUP BY eq.question_id
+)
+SELECT question AS most_used_question
+FROM tbl 
+WHERE times_used = (
+	SELECT MAX(times_used) FROM tbl
+);
+
 -- QUESTION 6
 SELECT C.category_name, COUNT(*) as no_of_questions
 FROM `category_question` C
@@ -38,7 +50,11 @@ ON C.category_id = Q.category_id
 GROUP BY C.category_name;
 
 -- QUESTION 7
-	-- TODO: HOW MANY TIMES EACH QUESTION SHOWS UP ON EXAMS (COUNT EXAMS)
+SELECT q.content AS question, COUNT(*) AS times_used_in_exams
+FROM question q
+LEFT JOIN exam_question eq
+ON q.question_id = eq.question_id
+GROUP BY q.question_id, eq.question_id;
     
 -- QUESTION 8
 WITH count_table
@@ -124,3 +140,25 @@ ON q.creator_id = a.account_id
 LEFT JOIN answer an
 ON q.question_id = an.question_id AND an.is_correct = "true";
 
+-- QUESTION 13
+SELECT t.type_name, COUNT(*) AS no_of_questions
+FROM question q
+LEFT JOIN type_question t
+ON q.type_id = t.type_id
+GROUP BY t.type_name;
+
+-- QUESTION 14-15
+SELECT g.group_name AS empty_groups
+FROM `group` g
+LEFT JOIN group_account ga 
+ON g.group_id = ga.group_id
+WHERE ga.account_id IS NULL;
+
+-- QUESTION 16
+SELECT q.content AS questions_w_no_answers
+FROM question q
+LEFT JOIN answer a
+ON q.question_id = a.question_id
+WHERE answer_id IS NULL;
+
+-- QUESTION 17
