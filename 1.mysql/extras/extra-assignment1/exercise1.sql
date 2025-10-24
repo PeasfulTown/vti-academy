@@ -4,6 +4,7 @@ USE fresher_training_management;
 
 DROP TABLE IF EXISTS trainee;
 
+-- QUESTION 1
 CREATE TABLE IF NOT EXISTS trainee (
 	trainee_id			SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     full_name			VARCHAR(50) NOT NULL,
@@ -16,9 +17,11 @@ CREATE TABLE IF NOT EXISTS trainee (
     evaluation_notes	MEDIUMTEXT
 );
 
+-- QUESTION 2
 ALTER TABLE `trainee`
 ADD COLUMN vti_account VARCHAR(50) NOT NULL UNIQUE KEY;
 
+-- QUESTION 3
 INSERT INTO trainee (full_name, birth_date, gender, et_iq, et_gmath, et_english, training_class, evaluation_notes, vti_account)
 VALUES	("Alice Wong", "2000-03-28", "female", 15, 13, 40, "DTN", "No Comment", "alicew"),
 		("John Smith", "1989-08-09", "male", 15, 12, 40, "DTN", "No Comment", "johns"),
@@ -33,7 +36,7 @@ VALUES	("Alice Wong", "2000-03-28", "female", 15, 13, 40, "DTN", "No Comment", "
         
 SELECT * FROM trainee;
 
--- QUESTION 2
+-- QUESTION 4
 SELECT COUNT(*) as passing_students_count, GROUP_CONCAT(full_name) AS student_names, MONTH(birth_date) as birth_month
 FROM (
 	SELECT * 
@@ -46,13 +49,24 @@ FROM (
 GROUP BY MONTH(birth_date)
 ORDER BY MONTH(birth_date);
 
--- QUESTION 3
- SELECT trainee_id, full_name, TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) AS age, gender, et_iq, et_gmath, et_english, training_class, evaluation_notes, vti_account 
+-- QUESTION 5
+ SELECT trainee_id, 
+		full_name, 
+		TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) AS age, 
+		gender, 
+        et_iq, 
+        et_gmath, 
+        et_english, 
+        training_class, 
+        evaluation_notes, 
+        vti_account 
  FROM `trainee` 
- WHERE	LENGTH(full_name)=(SELECT MAX(LENGTH(full_name))
-		FROM `trainee`);
+ WHERE	LENGTH(full_name) = (
+	SELECT MAX(LENGTH(full_name))
+	FROM `trainee`
+);
 
--- QUESTION 4
+-- QUESTION 6
 SELECT * 
 FROM `trainee`
 WHERE et_iq + et_gmath>=20
@@ -60,7 +74,7 @@ AND et_iq>=8
 AND et_gmath>=8
 AND et_english>=18;
 
--- QUESTION 5
+-- QUESTION 6
 DELETE FROM `trainee`
 WHERE trainee_id = (
 	SELECT t.trainee_id FROM (
@@ -68,7 +82,19 @@ WHERE trainee_id = (
 	) as t
 );
 
--- QUESTION 6
+-- QUESTION 7
 UPDATE `trainee`
 SET training_class="2"
 WHERE trainee_id=5;
+
+CREATE OR REPLACE VIEW passed_trainees 
+AS (
+	SELECT * 
+    FROM `trainee`
+    WHERE et_iq + et_gmath>=20
+    AND et_iq>=8
+    AND et_gmath>=8
+    AND et_english>=18
+);
+
+SELECT * FROM passed_trainees;
