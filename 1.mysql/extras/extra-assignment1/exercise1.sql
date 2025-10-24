@@ -62,7 +62,7 @@ AND et_english>=18;
 
 -- QUESTION 5
 DELETE FROM `trainee`
-WHERE trainee_id IN (
+WHERE trainee_id = (
 	SELECT t.trainee_id FROM (
 		SELECT trainee_id FROM `trainee` WHERE trainee_id=3
 	) as t
