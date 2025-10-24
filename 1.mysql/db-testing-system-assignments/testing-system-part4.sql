@@ -161,3 +161,33 @@ ON q.question_id = a.question_id
 WHERE answer_id IS NULL;
 
 -- QUESTION 17
+SELECT a.email, a.username, a.fullname
+FROM `account` a
+LEFT JOIN group_account ga
+ON a.account_id = ga.account_id
+WHERE ga.group_id = 1
+
+UNION 
+
+SELECT a.email, a.username, a.fullname
+FROM `account` a
+LEFT JOIN group_account ga
+ON a.account_id = ga.account_id 
+WHERE ga.group_id = 2;
+
+-- QUESTION 18
+SELECT g.group_name, COUNT(*) AS members
+FROM `group` g
+LEFT JOIN group_account ga
+ON g.group_id = ga.group_id
+GROUP BY g.group_id
+HAVING members > 5
+
+INTERSECT
+
+SELECT g.group_name, COUNT(*) AS members
+FROM `group` g
+LEFT JOIN group_account ga
+ON g.group_id = ga.group_id
+GROUP BY g.group_id
+HAVING members < 7;
