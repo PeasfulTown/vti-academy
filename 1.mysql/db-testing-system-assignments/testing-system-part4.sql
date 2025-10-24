@@ -27,7 +27,6 @@ GROUP BY D.department_id
 HAVING no_of_members >= 3;
 
 -- QUESTION 5
-	-- TODO: MOST COMMONLY USED EXAM QUESTIONS (MAX COUNT)
 WITH tbl
 AS (
 	SELECT q.content AS question, COUNT(*) AS times_used
