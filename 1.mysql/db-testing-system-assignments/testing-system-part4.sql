@@ -112,3 +112,15 @@ LEFT JOIN (
 ) AS smc
 ON t.department_name = smc.department_name;
 
+-- QUESTION 12 
+SELECT q.content, t.type_name, c.category_name, a.fullname AS creator, q.create_date, an.content AS correct_answer
+FROM question q
+LEFT JOIN type_question t
+ON q.type_id = t.type_id
+LEFT JOIN category_question c
+ON q.category_id = c.category_id
+LEFT JOIN `account` a
+ON q.creator_id = a.account_id
+LEFT JOIN answer an
+ON q.question_id = an.question_id AND an.is_correct = "true";
+
