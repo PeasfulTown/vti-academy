@@ -200,29 +200,29 @@ VALUES	('vice president'),
         ('trainee');
 
 -- account (email, username, fullname, department_id, position_id, create_date)
-INSERT INTO `account` 	(email						, username		, fullname			, department_id	, position_id)
-VALUES					("williamd@example.com"		, "willd"		, "William Doe"		, 2				, 1	),
-						("joes@example.com"			, "joes"		, "Joe Schmoe"		, 8				, 1	),
-						("johns@example.com"		, "johns"		, "John Smith"		, 7				, 2	),
-						("janes@example.com"		, "janes"		, "Jane Smith"		, 3				, 2	),
-						("alicew@example.com"		, "alicew"		, "Alice Wong"		, 5				, 3	), 
-						("hanhn@example.com"		, "hanhn"		, "Hanh Nguyen"		, 8				, 3	),
-						("emilyp@example.com"		, "emilyp"		, "Emily Parisien"	, 6				, 3	),
-						("nicoleb@example.com"		, "nicoleb"		, "Nicole Bayley"	, 4				, 4	),
-						("clayj@example.com"		, "clayj"		, "Clayton John"	, 5				, 8	),
-						("jaredm@example.com"		, "jaredm"		, "Jared Miller"	, 4				, 4	),
-						("sheilab@exadmple.com"		, "sheilab"		, "Sheila Brown"	, 5				, 5	),
-						("bayleya@example.com"		, "bayleym"		, "Bayley Anderson"	, 1				, 7	),
-						("aliciad@example.com"		, "aliciad"		, "Alicia Davis"	, 2				, 6	),
-						("dinhd@example.com"		, "dinhd"		, "Dinh Do"			, 5				, 7	),
-						("angelp@example.com"		, "angelp"		, "Angel Phillips"	, 3				, 9	),
-						("josephm@example.com"		, "josephm"		, "Joseph Martin"	, 10			, 9	),
-						("theob@example.com"		, "theob"		, "Theodore Bailey"	, 9				, 8	),
-						("andrewa@example.com"		, "andrewa"		, "Andrew Adams"	, 4				, 8	),
-						("ryanc@example.com"		, "ryanc"		, "Ryan Collins"	, 5				, 8 ),
-						("romanc@example.com"		, "romanc"		, "Roman Cook"		, 5				, 8	),
-						("loganj@example.com"		, "loganj"		, "Logan Jimenez"	, 5				, 8	),
-						("danielc@example.com"		, "danielc"		, "Daniel Cruz"		, 5 			, 8	);
+INSERT INTO `account` 	(email						, username		, fullname			, department_id	, position_id	, create_date)
+VALUES					("williamd@example.com"		, "willd"		, "William Doe"		, 2				, 1				, '2009-02-09 00:00:00'),
+						("joes@example.com"			, "joes"		, "Joe Schmoe"		, 8				, 1				, '2009-03-02 00:00:00'),
+						("johns@example.com"		, "johns"		, "John Smith"		, 7				, 2				, '2019-12-30 00:00:00'),
+						("janes@example.com"		, "janes"		, "Jane Smith"		, 3				, 2				, '2020-01-01 00:00:00'),
+						("alicew@example.com"		, "alicew"		, "Alice Wong"		, 5				, 3				, '2021-04-05 00:00:00'), 
+						("hanhn@example.com"		, "hanhn"		, "Hanh Nguyen"		, 8				, 3				, '2023-08-19 00:00:00'),
+						("emilyp@example.com"		, "emilyp"		, "Emily Parisien"	, 6				, 3				, '2018-11-12 00:00:00'),
+						("nicoleb@example.com"		, "nicoleb"		, "Nicole Bayley"	, 4				, 4				, '2017-06-27 00:00:00'),
+						("clayj@example.com"		, "clayj"		, "Clayton John"	, 5				, 8				, '2021-01-30 00:00:00'),
+						("jaredm@example.com"		, "jaredm"		, "Jared Miller"	, 4				, 4				, '2024-08-14 00:00:00'),
+						("sheilab@exadmple.com"		, "sheilab"		, "Sheila Brown"	, 5				, 5				, '2015-02-17 00:00:00'),
+						("bayleya@example.com"		, "bayleym"		, "Bayley Anderson"	, 1				, 7				, '2023-07-11 00:00:00'),
+						("aliciad@example.com"		, "aliciad"		, "Alicia Davis"	, 2				, 6				, '2011-09-28 00:00:00'),
+						("dinhd@example.com"		, "dinhd"		, "Dinh Do"			, 5				, 7				, '2013-07-19 00:00:00'),
+						("angelp@example.com"		, "angelp"		, "Angel Phillips"	, 3				, 9				, '2019-05-27 00:00:00'),
+						("josephm@example.com"		, "josephm"		, "Joseph Martin"	, 10			, 9				, '2020-11-08 00:00:00'),
+						("theob@example.com"		, "theob"		, "Theodore Bailey"	, 9				, 8				, '2021-01-03 00:00:00'),
+						("andrewa@example.com"		, "andrewa"		, "Andrew Adams"	, 4				, 8				, '2011-02-18 00:00:00'),
+						("ryanc@example.com"		, "ryanc"		, "Ryan Collins"	, 5				, 8 			, '2019-09-12 00:00:00'),
+						("romanc@example.com"		, "romanc"		, "Roman Cook"		, 5				, 8				, '2017-07-19 00:00:00'),
+						("loganj@example.com"		, "loganj"		, "Logan Jimenez"	, 5				, 8				, '2021-04-10 00:00:00'),
+						("danielc@example.com"		, "danielc"		, "Daniel Cruz"		, 5 			, 8				, '2021-09-10 00:00:00');
 
 -- group (group_id, group_name, creator_id, create_date)
 INSERT INTO `group`	(group_name					, creator_id	, create_date)
