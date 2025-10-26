@@ -328,7 +328,7 @@ VALUES					("Lorem ipsum dolor sit amet, consectetur adipiscing elit."							, 1
                         ("Donec tempor metus sed orci convallis commodo."									, 7				, 8			, 1			),
                         ("Sed cursus libero ut elit dignissim, id gravida sem pharetra."					, 8				, 4			, 2			),
                         ("Mauris sodales lorem at felis tincidunt, quis tempus ex porta."					, 9				, 5			, 3			),
-                        ("Question 1"																		, 10			, 1			, 1			);
+                        ("Question 1"																		, 9 			, 1			, 1			);
 
 -- answer (answer_id, content, question_id, is_correct)
 INSERT INTO `answer` 	(content														, question_id	, is_correct)
