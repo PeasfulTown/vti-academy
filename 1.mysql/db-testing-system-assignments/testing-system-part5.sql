@@ -64,3 +64,33 @@ WHERE question_id IN (
 );
 	
 -- QUESTION 4
+CREATE OR REPLACE VIEW vw_dep_most_empl AS
+	WITH cte_dep_empl_cnt 
+	AS (
+		SELECT d.department_id, d.department_name, COUNT(a.account_id) as empl_cnt
+		FROM department d
+		LEFT JOIN `account` a
+		ON d.department_id = a.department_id
+		GROUP BY d.department_id
+	)
+	SELECT department_id, department_name, empl_cnt
+	FROM cte_dep_empl_cnt
+	WHERE empl_cnt = (
+		SELECT MAX(empl_cnt) FROM cte_dep_empl_cnt
+	);
+
+SELECT * FROM vw_dep_most_empl;
+
+-- QUESTION 5
+DROP VIEW IF EXISTS vw_question_by_usr;
+
+CREATE OR REPLACE VIEW vw_question_by_usr AS
+	SELECT q.question_id, q.content, a.fullname AS creator
+	FROM question q
+	INNER JOIN `account` a
+	ON q.creator_id = a.account_id
+	WHERE creator_id = (
+		SELECT account_id FROM `account` WHERE TRIM(fullname) LIKE ("%_Nguyen") -- OR ("Nguyen_%") if last name is written first 
+	);
+
+SELECT * FROM vw_question_by_usr;
