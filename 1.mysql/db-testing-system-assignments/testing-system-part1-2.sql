@@ -32,7 +32,8 @@ CREATE TABLE `department`(
         'maintenance',
         'security',
         'operations',
-        'administration') NOT NULL UNIQUE KEY
+        'administration',
+        'waiting room') NOT NULL UNIQUE KEY
 );
 
 CREATE TABLE `position`(
@@ -183,7 +184,8 @@ VALUES 	('sales'),
         ('maintenance'),
         ('security'),
         ('operations'),
-        ('administration');
+        ('administration'),
+        ('waiting room');
 
 -- position (position_name)
 INSERT INTO `position`(position_name)
@@ -306,29 +308,29 @@ VALUES	('java'),
         ('javascript');
 		
 -- question (question_id, content, category_id, type_id, creator_id, create_date)
-INSERT INTO `question`	(content																			, category_id	, type_id	, creator_id)
-VALUES					("Lorem ipsum dolor sit amet, consectetur adipiscing elit."							, 1				, 10		, 2			),
-						("Praesent et purus vitae enim pellentesque placerat at ac libero."					, 1				, 10		, 3			),
-						("Vivamus ut felis interdum, fermentum leo vel, finibus lectus."					, 1				, 1			, 7			),
-						("Duis convallis tortor a tellus rutrum semper."									, 1				, 2			, 6			),
-						("Integer lobortis nibh condimentum sapien fringilla laoreet."						, 1 			, 3			, 5			),
-						("Mauris vel ipsum a sem dignissim malesuada quis nec sapien."						, 1				, 1			, 9			),
-						("Nam tempus eros vitae nisi imperdiet, quis laoreet elit hendrerit."				, 2				, 1			, 8			),
-						("Proin condimentum lorem in est feugiat, vitae convallis dolor consequat."			, 2				, 1			, 7			),
-						("Phasellus egestas turpis ut felis dictum maximus."								, 2				, 1			, 10		),
-						("Fusce ornare leo vel porta fermentum."											, 2				, 2			, 2			),
-                        ("Suspendisse convallis velit vitae augue cursus, eu blandit orci blandit."			, 3				, 2			, 3			),
-						("Phasellus nec erat et nibh venenatis ultricies."									, 3				, 1			, 1			),
-                        ("Mauris eu dui finibus, euismod mi eget, facilisis nunc."							, 4				, 1			, 1			),
-                        ("Donec vitae libero sagittis, iaculis diam et, consequat ligula."					, 4				, 8			, 9			),
-                        ("Phasellus nec erat et nibh venenatis ultricies."									, 5				, 6			, 8			),
-                        ("Etiam molestie nulla eu interdum volutpat."										, 5				, 7			, 5			),
-                        ("Vivamus viverra massa in ligula mollis elementum."								, 6				, 5			, 6			),
-                        ("Nam at massa vel erat viverra malesuada."											, 6				, 9			, 1			),
-                        ("Donec tempor metus sed orci convallis commodo."									, 7				, 8			, 1			),
-                        ("Sed cursus libero ut elit dignissim, id gravida sem pharetra."					, 8				, 4			, 2			),
-                        ("Mauris sodales lorem at felis tincidunt, quis tempus ex porta."					, 9				, 5			, 3			),
-                        ("Question 1"																		, 9 			, 1			, 1			);
+INSERT INTO `question`	(content																			, category_id	, type_id	, creator_id	, create_date)
+VALUES					("Lorem ipsum dolor sit amet, consectetur adipiscing elit."							, 1				, 10		, 2				, '2025-01-23 00:00:00'),
+						("Praesent et purus vitae enim pellentesque placerat at ac libero."					, 1				, 10		, 3				, '2023-02-04 00:00:00'),
+						("Vivamus ut felis interdum, fermentum leo vel, finibus lectus."					, 1				, 1			, 7				, '2024-03-09 00:00:00'),
+						("Duis convallis tortor a tellus rutrum semper."									, 1				, 2			, 6				, '2021-04-20 00:00:00'),
+						("Integer lobortis nibh condimentum sapien fringilla laoreet."						, 1 			, 3			, 5				, '2020-05-01 00:00:00'),
+						("Mauris vel ipsum a sem dignissim malesuada quis nec sapien."						, 1				, 1			, 9				, '2019-06-08 00:00:00'),
+						("Nam tempus eros vitae nisi imperdiet, quis laoreet elit hendrerit."				, 2				, 1			, 8				, '2024-07-13 00:00:00'),
+						("Proin condimentum lorem in est feugiat, vitae convallis dolor consequat."			, 2				, 1			, 7				, '2025-08-15 00:00:00'),
+						("Phasellus egestas turpis ut felis dictum maximus."								, 2				, 1			, 10			, '2025-09-04 00:00:00'),
+						("Fusce ornare leo vel porta fermentum."											, 2				, 2			, 2				, '2025-09-08 00:00:00'),
+                        ("Suspendisse convallis velit vitae augue cursus, eu blandit orci blandit."			, 3				, 2			, 3				, '2025-11-30 00:00:00'),
+						("Phasellus nec erat et nibh venenatis ultricies."									, 3				, 1			, 1				, '2025-12-28 00:00:00'),
+                        ("Mauris eu dui finibus, euismod mi eget, facilisis nunc."							, 4				, 1			, 1				, '2025-02-24 00:00:00'),
+                        ("Donec vitae libero sagittis, iaculis diam et, consequat ligula."					, 4				, 8			, 9				, '2025-03-17 00:00:00'),
+                        ("Phasellus nec erat et nibh venenatis ultricies."									, 5				, 6			, 8				, '2025-04-19 00:00:00'),
+                        ("Etiam molestie nulla eu interdum volutpat."										, 5				, 2			, 5				, '2025-05-20 00:00:00'),
+                        ("Vivamus viverra massa in ligula mollis elementum."								, 6				, 5			, 6				, '2025-06-28 00:00:00'),
+                        ("Nam at massa vel erat viverra malesuada."											, 6				, 9			, 1				, '2025-07-30 00:00:00'),
+                        ("Donec tempor metus sed orci convallis commodo."									, 7				, 8			, 1				, '2025-03-10 00:00:00'),
+                        ("Sed cursus libero ut elit dignissim, id gravida sem pharetra."					, 8				, 4			, 2				, '2025-09-22 00:00:00'),
+                        ("Mauris sodales lorem at felis tincidunt, quis tempus ex porta."					, 9				, 5			, 3				, '2025-02-19 00:00:00'),
+                        ("Question 1"																		, 9 			, 1			, 1				, '2025-09-07 00:00:00');
 
 INSERT INTO `question` 	(content, category_id	, type_id	, creator_id) 		
 VALUE					("Nunc et consequat dolor. Duis tortor tellus, euismod sed purus sit amet, condimentum finibus ante. Aenean nec tellus in quam dignissim placerat eget non nulla. Sed aliquam nulla sem, ut malesuada justo varius eget. Vestibulum tempor purus ac purus sodales faucibus. Suspendisse potenti. Suspendisse et massa sed purus blandit tincidunt. Sed at laoreet nisi. Quisque molestie felis tellus, sed lobortis risus imperdiet sit amet. Sed eget mi mauris. Aenean accumsan volutpat velit, tempor ullamcorper lorem lobortis quis. Aenean nec aliquet purus. Praesent nec dui id dui pellentesque tempor sit amet sit amet dui. Duis porttitor egestas dui.
