@@ -57,6 +57,7 @@ CREATE TABLE `account`(
     email			VARCHAR(40) NOT NULL UNIQUE KEY,
     username		VARCHAR(10) NOT NULL UNIQUE KEY,
     fullname		VARCHAR(50) NOT NULL,
+    gender			ENUM('M', 'F', 'U') NOT NULL DEFAULT 'U',
     department_id	SMALLINT UNSIGNED,
     position_id		SMALLINT UNSIGNED,
     create_date		DATETIME DEFAULT NOW() NOT NULL,
@@ -375,17 +376,17 @@ VALUES					('sed sagittis nam congue risus semper porta volutpat quam'		, 12			,
                         
 -- exam (exam_id, code, title, category_id, duration, creator_id, create_date)
 INSERT INTO `exam`	(code		, title												, category_id	, duration	, creator_id, create_date)
-VALUES				("COMP1011"	, "Java Programming Basics Midterm"					, 1				, 3600		, 7			, '2022-10-29 00:00:00'),
-					("COMP1022"	, "Linux Operating System 101"						, 5				, 1200		, 8			, '2019-02-10 00:00:00'),
-					("COMP0101"	, "Serverless Databases 101"						, 4				, 2400		, 8			, '2010-12-11 00:00:00'),
-					("COMP2012"	, "Relational Databases"							, 7				, 3600		, 7			, '2021-03-23 00:00:00'),
-					("COMP2211"	, "Java Concurrency in Practice"					, 1				, 3600		, 7			, '2024-01-18 00:00:00'), 
-					("COMP1302"	, "Cloud Computing Basics"							, 6				, 3600		, 8			, '2017-08-02 00:00:00'),
-					("COMP3030"	, "Scaling in the Cloud"							, 6				, 3600		, 8			, '2019-09-07 00:00:00'),
-					("COMP2240"	, "Version Control with Git"						, 7				, 3600		, 7			, '2023-04-30 00:00:00'),
-					("COMP1091"	, "Collaborative Development and CI/CD"				, 7				, 3600		, 8			, '2012-12-10 00:00:00'),
-					("GAME1010"	, "Game Development Basics in Unity"				, 10			, 3600		, 7			, '2015-03-18 00:00:00'),
-					("ENGL1001"	, "English For Everyday Conversations"				, 9				, 4800		, 8			, '2022-08-29 00:00:00');
+VALUES				("COMP1011"	, "Java Programming Basics Midterm"					, 1				, 15		, 7			, '2022-10-29 00:00:00'),
+					("COMP1022"	, "Linux Operating System 101"						, 5				, 15		, 8			, '2019-02-10 00:00:00'),
+					("COMP0101"	, "Serverless Databases 101"						, 4				, 45		, 8			, '2010-12-11 00:00:00'),
+					("COMP2012"	, "Relational Databases"							, 7				, 30		, 7			, '2021-03-23 00:00:00'),
+					("COMP2211"	, "Java Concurrency in Practice"					, 1				, 30		, 7			, '2024-01-18 00:00:00'), 
+					("COMP1302"	, "Cloud Computing Basics"							, 6				, 45		, 8			, '2017-08-02 00:00:00'),
+					("COMP3030"	, "Scaling in the Cloud"							, 6				, 60		, 8			, '2019-09-07 00:00:00'),
+					("COMP2240"	, "Version Control with Git"						, 7				, 60		, 7			, '2023-04-30 00:00:00'),
+					("COMP1091"	, "Collaborative Development and CI/CD"				, 7				, 80		, 8			, '2012-12-10 00:00:00'),
+					("GAME1010"	, "Game Development Basics in Unity"				, 10			, 80		, 7			, '2015-03-18 00:00:00'),
+					("ENGL1001"	, "English For Everyday Conversations"				, 9				, 80		, 8			, '2022-08-29 00:00:00');
 
 -- exam_question (exam_id, question_id)
 INSERT INTO `exam_question`(exam_id, question_id)
