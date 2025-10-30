@@ -16,7 +16,7 @@ DELIMITER ;
 CALL sp_find_dep_empl('marketing');
 
 -- QUESTION 2
-DROP PROCEDURE IF EXISTS sp_group_usr_cnt
+DROP PROCEDURE IF EXISTS sp_group_usr_cnt;
 
 DELIMITER $$
 CREATE PROCEDURE sp_group_usr_cnt()
@@ -25,34 +25,31 @@ CREATE PROCEDURE sp_group_usr_cnt()
 		FROM `group` g
 		LEFT JOIN group_account ga
 		ON g.group_id = ga.group_id
-		GROUP BY ga.group_id, g.group_id;
+		GROUP BY ga.group_id, g.group_name;
 	END $$
 DELIMITER ;
 
 CALL sp_group_usr_cnt();
 
 -- QUESTION 3
-	-- CURRENT MONTH
 DROP PROCEDURE IF EXISTS sp_month_type_question_count;
 
 DELIMITER $$
 CREATE PROCEDURE sp_month_type_question_count()
 	BEGIN
 		WITH cte_cur_month_tbl
-        AS (
-			SELECT tq.type_name
+		AS (
+			SELECT tq.type_name, q.question_id, q.create_date
 			FROM type_question tq
 			LEFT JOIN question q 
 			ON tq.type_id = q.type_id
-        )
-		SELECT tq.type_name, COUNT(q.question_id) AS question_count
-		FROM type_question tq
-		LEFT JOIN question q 
-		ON tq.type_id = q.type_id
-		WHERE 
-			q.question_id IS NULL OR -- show records with no questions
-            MONTH(q.create_date) = MONTH(CURRENT_DATE())
-		GROUP BY tq.type_id;
+			WHERE 
+				MONTH(q.create_date) = MONTH(CURDATE())
+				AND YEAR(q.create_date) = YEAR(CURDATE())
+		)
+		SELECT type_name, COUNT(question_id) AS question_count
+		FROM cte_cur_month_tbl 
+		GROUP BY type_name;
 	END $$
 DELIMITER ;
 
@@ -248,11 +245,97 @@ CREATE PROCEDURE sp_delete_exam_by_id(IN in_exam_id SMALLINT)
     END $$
 DELIMITER ;
 
-CALL sp_delete_exam_by_id(3);
-
 -- QUESTION 10
--- TODO: finish 
-DROP PROCEDURE IF EXISTS sp_remove_old_tests;
+SET SQL_SAFE_UPDATES = 0;
+
+DROP TABLE IF EXISTS exam_question_history;
+CREATE TABLE exam_question_history LIKE exam_question;
+ALTER TABLE exam_question_history DROP KEY exam_id;
+ALTER TABLE exam_question_history DROP KEY question_id;
+ALTER TABLE exam_question_history ADD COLUMN `timestamp` DATETIME DEFAULT NOW() NOT NULL;
+DESCRIBE exam_question_history;
+
+DROP TABLE IF EXISTS exam_history;
+CREATE TABLE exam_history LIKE exam;
+ALTER TABLE exam_history MODIFY COLUMN exam_id SMALLINT UNSIGNED NOT NULL;
+ALTER TABLE exam_history DROP PRIMARY KEY;
+ALTER TABLE exam_history ADD COLUMN id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE exam_history DROP KEY category_id;
+ALTER TABLE exam_history DROP KEY creator_id;
+ALTER TABLE exam_history ALTER create_date DROP DEFAULT;
+ALTER TABLE exam_history ADD COLUMN `timestamp` DATETIME DEFAULT NOW() NOT NULL;
+DESCRIBE exam_history;
+
+CREATE OR REPLACE VIEW vw_exam_three_years_ago AS (
+	SELECT exam_id
+	FROM exam 
+	WHERE TIMESTAMPDIFF(YEAR, create_date, CURDATE()) = 3
+);
+
+DROP TRIGGER IF EXISTS trg_after_exam_question_delete_add_to_history;
+DELIMITER $$
+CREATE TRIGGER trg_after_exam_question_delete_add_to_history AFTER DELETE ON exam_question
+	FOR EACH ROW
+    BEGIN 
+		INSERT INTO exam_question_history (exam_id, question_id)
+        VALUE (OLD.exam_id, OLD.question_id);
+    END $$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS trg_before_exam_delete_remove_exam_question;
+DELIMITER $$
+CREATE TRIGGER trg_before_exam_delete_remove_exam_question BEFORE DELETE ON exam
+	FOR EACH ROW
+    BEGIN
+		DELETE FROM exam_question
+        WHERE exam_id = OLD.exam_id;
+    END $$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS trg_after_exam_delete_add_to_history;
+DELIMITER $$
+CREATE TRIGGER trg_after_exam_delete_add_to_history AFTER DELETE ON exam
+	FOR EACH ROW
+    BEGIN
+		INSERT INTO exam_history (exam_id, `code`, title, category_id, duration, creator_id, create_date)
+        VALUE (OLD.exam_id, OLD.`code`, OLD.title, OLD.category_id, OLD.duration, OLD.creator_id, OLD.create_date);
+    END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_delete_exam_three_years_ago;
+DELIMITER $$
+CREATE PROCEDURE sp_delete_exam_three_years_ago()
+	BEGIN
+		DECLARE v_i SMALLINT DEFAULT 0;
+        DECLARE v_n SMALLINT DEFAULT 0;
+        DECLARE v_exam_id SMALLINT DEFAULT 0;
+        
+        SET v_i = 0;
+        SET v_n = ( SELECT COUNT(*) FROM vw_exam_three_years_ago );
+        
+        WHILE v_i < v_n DO
+			SET v_exam_id = (SELECT exam_id FROM vw_exam_three_years_ago LIMIT 1);
+			CALL sp_delete_exam_by_id(v_exam_id);
+            SET v_i = v_i + 1;
+        END WHILE;
+
+		-- count deleted rows based on latest timestamps 
+        SELECT SUM(count) AS deleted_records_count
+		FROM (
+			SELECT COUNT(*) AS count
+			FROM exam_history
+			WHERE `timestamp` = ( SELECT MAX(`timestamp`) AS latest_time FROM exam_history )
+			UNION ALL
+			SELECT COUNT(*) AS count
+			FROM exam_question_history
+			WHERE `timestamp` = ( SELECT MAX(`timestamp`) AS latest_time FROM exam_history )
+		) AS counts;
+    END $$
+DELIMITER ;
+
+CALL sp_delete_exam_three_years_ago();
+
+SET SQL_SAFE_UPDATES = 1;
 
 -- QUESTION 11
 DROP TRIGGER IF EXISTS trigger_update_account_department_on_department_delete;

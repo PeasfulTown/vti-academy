@@ -166,7 +166,7 @@ CREATE TABLE `exam_question`(
     question_id	SMALLINT UNSIGNED NOT NULL,
     
     FOREIGN KEY(exam_id)
-		REFERENCES `exam`(exam_id) ON DELETE CASCADE,
+		REFERENCES `exam`(exam_id),
     FOREIGN KEY(question_id)
 		REFERENCES `question`(question_id) ON DELETE CASCADE
 );
@@ -375,7 +375,7 @@ VALUES					('sed sagittis nam congue risus semper porta volutpat quam'		, 12			,
                         
 -- exam (exam_id, code, title, category_id, duration, creator_id, create_date)
 INSERT INTO `exam`	(code		, title												, category_id	, duration	, creator_id, create_date)
-VALUES				("COMP1011"	, "Java Programming Basics Midterm"					, 1				, 3600		, 7			, '2012-10-29 00:00:00'),
+VALUES				("COMP1011"	, "Java Programming Basics Midterm"					, 1				, 3600		, 7			, '2022-10-29 00:00:00'),
 					("COMP1022"	, "Linux Operating System 101"						, 5				, 1200		, 8			, '2019-02-10 00:00:00'),
 					("COMP0101"	, "Serverless Databases 101"						, 4				, 2400		, 8			, '2010-12-11 00:00:00'),
 					("COMP2012"	, "Relational Databases"							, 7				, 3600		, 7			, '2021-03-23 00:00:00'),
@@ -385,7 +385,7 @@ VALUES				("COMP1011"	, "Java Programming Basics Midterm"					, 1				, 3600		, 7
 					("COMP2240"	, "Version Control with Git"						, 7				, 3600		, 7			, '2023-04-30 00:00:00'),
 					("COMP1091"	, "Collaborative Development and CI/CD"				, 7				, 3600		, 8			, '2012-12-10 00:00:00'),
 					("GAME1010"	, "Game Development Basics in Unity"				, 10			, 3600		, 7			, '2015-03-18 00:00:00'),
-					("ENGL1001"	, "English For Everyday Conversations"				, 9				, 4800		, 8			, '2018-08-29 00:00:00');
+					("ENGL1001"	, "English For Everyday Conversations"				, 9				, 4800		, 8			, '2022-08-29 00:00:00');
 
 -- exam_question (exam_id, question_id)
 INSERT INTO `exam_question`(exam_id, question_id)
