@@ -3,7 +3,7 @@ USE db_testing_system;
 -- QUESTION 1
 DROP FUNCTION IF EXISTS f_check_if_older_than_1_year;
 DELIMITER $$
-CREATE FUNCTION f_check_if_older_than_1_year (in_date DATETIME) RETURNS BIT 
+CREATE FUNCTION f_is_older_than_1_year (in_date DATETIME) RETURNS BIT 
 	BEGIN
 		RETURN in_date < DATE_SUB(NOW(), INTERVAL 1 YEAR);
     END $$
@@ -15,7 +15,7 @@ CREATE TRIGGER trg_before_group_insert_create_date_not_more_than_1_year_old
 	BEFORE INSERT ON `group`
     FOR EACH ROW
     BEGIN
-		IF (f_check_if_older_than_1_year(NEW.create_date)) THEN 
+		IF (f_is_older_than_1_year(NEW.create_date)) THEN 
 			SIGNAL SQLSTATE '45001'
             SET MESSAGE_TEXT = 'New group must not have create_date older than 1 year';
 		END IF;
