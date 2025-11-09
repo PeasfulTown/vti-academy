@@ -1,23 +1,23 @@
 package xyz.peasfultown.entity;
 
-public class Department {
-	private int id;
-	private String name;
-	public Department(int id, String name) {
-		this.id = id;
-		this.name = name;
+public enum Department {
+	SALES,
+	MARKETING,
+	HUMAN_RESOURCES,
+	FINANCE,
+	INFORMATION_TECHNOLOGY,
+	CUSTOMER_SERVICE,
+	MAINTENANCE,
+	SECURITY,
+	OPERATIONS,
+	ADMINISTRATION,
+	WAITING_ROOM;
+	
+	public int getId() {
+		return this.getId();
 	}
-	public int getDepartmentId() {
-		return this.id;
-	}
-	public void setDepartmentId(int id) {
-		this.id = id;
-	}
-	public String getDepartmentName() {
-		return this.name;
-	}
-	@Override
-	public String toString() {
-		return "Department [id=" + id + ", name=" + name + "]";
+	
+	public String getName() {
+		return this.toString();
 	}
 }

@@ -5,7 +5,6 @@ public class GroupAccount {
 	private Group group;
 	private Account account;
 	public GroupAccount(int id, Group group, Account account) {
-		super();
 		this.id = id;
 		this.group = group;
 		this.account = account;

@@ -1,14 +1,21 @@
 package xyz.peasfultown.entity;
 
 public class Account {
+	private static int numberOfAccounts;
+	static {
+		numberOfAccounts = 0;
+	}
 	private int id;
 	private String email;
 	private String username;
 	private String fullname;
 	private Department department;
 	private Position position;
-	public Account(int id, String email, String username, String fullname, Department department, Position position) {
-		this.id = id;
+	{
+		this.id = numberOfAccounts++;
+	}
+
+	public Account(String email, String username, String fullname, Department department, Position position) {
 		this.email = email;
 		this.username = username;
 		this.fullname = fullname;
@@ -16,12 +23,12 @@ public class Account {
 		this.position = position;
 	}
 
-	public int getId() {
-		return id;
+	public static int getNumberOfAccounts() {
+		return numberOfAccounts;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public int getId() {
+		return id;
 	}
 
 	public String getEmail() {
@@ -63,9 +70,10 @@ public class Account {
 	public void setPosition(Position position) {
 		this.position = position;
 	}
+
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", email=" + email + ", username=" + username + ", fullname=" + fullname
-				+ ", department=" + department + ", position=" + position + "]";
+				+ ", department=" + department.getName() + ", position=" + position.getName() + "]";
 	}
 }
