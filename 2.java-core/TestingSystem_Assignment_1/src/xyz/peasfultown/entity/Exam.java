@@ -15,6 +15,7 @@ public class Exam {
 	private Duration duration;
 	private Account creator;
 	private LocalDateTime createDate;
+	private Question[] questions;
 	{
 		this.id = numberOfExams++;
 		this.createDate = LocalDateTime.now();
@@ -88,6 +89,23 @@ public class Exam {
 
 	public void setCreateDate(LocalDateTime createDate) {
 		this.createDate = createDate;
+	}
+	
+	public Question[] getQuestions() {
+		return this.questions;
+	}
+	
+	public void setQuestions(Question[] questions) {
+		this.questions = questions;
+	}
+	
+	public void addQuestion(Question newQuestion) {
+		Question[] newQuestions = new Question[this.questions.length];
+		for (int i = 0; i < this.questions.length; i++) {
+			newQuestions[i] = this.questions[i];
+		}
+		newQuestions[newQuestions.length - 1] = newQuestion;
+		this.questions = newQuestions;
 	}
 
 	@Override

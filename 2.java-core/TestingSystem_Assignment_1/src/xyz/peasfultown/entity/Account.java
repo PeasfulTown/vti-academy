@@ -11,16 +11,23 @@ public class Account {
 	private String fullname;
 	private Department department;
 	private Position position;
+	private Group[] groups;
 	{
 		this.id = numberOfAccounts++;
+		this.groups = new Group[0];
 	}
-
+	
 	public Account(String email, String username, String fullname, Department department, Position position) {
 		this.email = email;
 		this.username = username;
 		this.fullname = fullname;
 		this.department = department;
 		this.position = position;
+	}
+	
+	public Account(String email, String username, String fullname, Department department, Position position, Group[] groups) {
+		this(email, username, fullname, department, position);
+		this.groups = groups;
 	}
 
 	public static int getNumberOfAccounts() {
@@ -69,6 +76,23 @@ public class Account {
 
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+
+	public Group[] getGroups() {
+		return this.groups;
+	}
+
+	public void setGroups(Group[] groups) {
+		this.groups = groups;
+	}
+
+	public void addGroup(Group newGroup) {
+		Group[] newGroups = new Group[this.groups.length + 1];
+		for (int i = 0; i < this.groups.length; i++) {
+			newGroups[i] = this.groups[i];
+		}
+		newGroups[newGroups.length - 1] = newGroup;
+		this.groups = newGroups;
 	}
 
 	@Override

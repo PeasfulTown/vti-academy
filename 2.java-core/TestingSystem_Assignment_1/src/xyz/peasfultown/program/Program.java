@@ -24,7 +24,7 @@ public class Program {
 		Group grp1 = new Group("Grp1", acc2);
 		Group grp2 = new Group("Grp2", acc3);
 		Group grp3 = new Group("Grp3", acc1);
-
+		
 		Question q1 = new Question("Question1", CategoryQuestion.JAVA, TypeQuestion.MULTIPLE_CHOICE, acc1);
 		Question q2 = new Question("Question1", CategoryQuestion.SQL, TypeQuestion.TRUE_OR_FALSE, acc2);
 		Question q3 = new Question("Question1", CategoryQuestion.RUBY, TypeQuestion.MULTIPLE_CHOICE, acc4);
@@ -47,6 +47,6 @@ public class Program {
 		System.out.println(grp1);
 		System.out.println(q1);
 		System.out.println(ans1);
-		System.out.println(exam1);
+		System.out.println(exam1);		
 	}
 }
