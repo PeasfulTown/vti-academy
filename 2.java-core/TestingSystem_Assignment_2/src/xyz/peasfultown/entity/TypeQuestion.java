@@ -28,4 +28,12 @@ public enum TypeQuestion {
 	public String getName() {
 		return this.name;
 	}
+	
+	public static TypeQuestion getTypeQuestionById(int id) {
+		for (TypeQuestion tq : TypeQuestion.values()) {
+			if (tq.getId() == id)
+				return tq;
+		}
+		return null;
+	}
 }

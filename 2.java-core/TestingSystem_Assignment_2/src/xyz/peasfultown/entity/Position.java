@@ -28,4 +28,12 @@ public enum Position {
 	public String getName() {
 		return this.name;
 	}
+	
+	public static Position getPositionById(int id) {
+		for (Position pos : Position.values()) {
+			if (pos.getId() == id)
+				return pos;
+		}
+		return null;
+	}
 }
