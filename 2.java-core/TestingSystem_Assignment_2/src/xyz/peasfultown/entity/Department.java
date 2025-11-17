@@ -28,4 +28,12 @@ public enum Department {
 	public String getName() {
 		return this.name;
 	}	
+	
+	public static Department getDepartmentById(int id) {
+		for (Department dep : Department.values()) {
+			if (dep.getId() == id) 
+				return dep;
+		}
+		return null;
+	}
 }

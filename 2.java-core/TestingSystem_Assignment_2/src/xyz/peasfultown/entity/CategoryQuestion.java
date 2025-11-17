@@ -27,4 +27,13 @@ public enum CategoryQuestion {
 	public String getName() {
 		return this.name;
 	}
+	
+	public static CategoryQuestion getCategoryQuestionById(int id) {
+		for (CategoryQuestion cq : CategoryQuestion.values()) {
+			if (cq.getId() == id)
+				return cq;
+		}
+		
+		return null;
+	}
 }
