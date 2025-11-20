@@ -1,59 +1,215 @@
 package xyz.peasfultown.program;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 import xyz.peasfultown.entity.Account;
 import xyz.peasfultown.entity.Group;
 import xyz.peasfultown.entity.Position;
+import xyz.peasfultown.utils.Prompt;
 import xyz.peasfultown.entity.Department;
 
 public class Exercise1 {
-	public static void main(String... args) {
-		Program program = new Program();
-		Account[] accounts = program.getAccounts();
-		Group[] groups = program.getGroups();
+	private Scanner scanner;
+	private Data data;
 
-		// if statement
-		question1(accounts);
-		question2(accounts);
-		question3(accounts);
-		question4(accounts);
-		
-		// switch case
-		question5(groups);
-		question6(accounts);
-		question7(accounts);
-		
-		// foreach
-		question8(accounts);
-		question9();
-		
-		// for
-		question10(accounts);
-		question11();
-		question12();
-		question13(accounts);
-		question14(accounts);
-		question15();
-		
-		// while
-		question16_10(accounts);
-		question16_11();
-		question16_12();
-		question16_13(accounts);
-		question16_14(accounts);
-		question16_15();
-		
-		// do while
-		question17_10(accounts);
-		question17_11();
-		question17_12();
-		question17_13(accounts);
-		question17_14(accounts);
-		question17_15();
+	public Exercise1(Scanner scanner, Data data) {
+		this.scanner = scanner;
+		this.data = data;
 	}
 
-	private static void question1(Account[] accounts) {
+	public void run() {
+		while (true) {
+			System.out.println("Exercise 1 Options:");
+			System.out.printf("%4s%s\n", " ", "(1) Question 1");
+			System.out.printf("%4s%s\n", " ", "(2) Question 2");
+			System.out.printf("%4s%s\n", " ", "(3) Question 3");
+			System.out.printf("%4s%s\n", " ", "(4) Question 4");
+			System.out.printf("%4s%s\n", " ", "(5) Question 5");
+			System.out.printf("%4s%s\n", " ", "(6) Question 6");
+			System.out.printf("%4s%s\n", " ", "(7) Question 7");
+			System.out.printf("%4s%s\n", " ", "(8) Question 8");
+			System.out.printf("%4s%s\n", " ", "(9) Question 9");
+			System.out.printf("%4s%s\n", " ", "(10) Question 10");
+			System.out.printf("%4s%s\n", " ", "(11) Question 11");
+			System.out.printf("%4s%s\n", " ", "(12) Question 12");
+			System.out.printf("%4s%s\n", " ", "(13) Question 13");
+			System.out.printf("%4s%s\n", " ", "(14) Question 14");
+			System.out.printf("%4s%s\n", " ", "(15) Question 15");
+			System.out.printf("%4s%s\n", " ", "(16) Question 16 (more)");
+			System.out.printf("%4s%s\n", " ", "(17) Question 17 (more)");
+
+			System.out.printf("%4s%s\n", " ", "(0) Exit Exercise 1");
+
+			int usrOp = Prompt.getIntegerUserInput(scanner, "\nEnter option: ");
+			System.out.println();
+			switch (usrOp) {
+			case 0:
+				System.out.println("\nExitting Exercise 1\n");
+				return;
+			case 1:
+				System.out.println("Selected Question 1");
+				question1(data.getAccounts());
+				break;
+			case 2:
+				System.out.println("Selected Question 2");
+				question2(data.getAccounts());
+				break;
+			case 3:
+				System.out.println("Selected Question 3");
+				question3(data.getAccounts());
+				break;
+			case 4:
+				System.out.println("Selected Question 4");
+				question4(data.getAccounts());
+				break;
+			case 5:
+				System.out.println("Selected Question 5");
+				question5(data.getGroups());
+				break;
+			case 6:
+				System.out.println("Selected Question 6");
+				question6(data.getAccounts());
+				break;
+			case 7:
+				System.out.println("Selected Question 7");
+				question7(data.getAccounts());
+				break;
+			case 8:
+				System.out.println("Selected Question 8");
+				question8(data.getAccounts());
+				break;
+			case 9:
+				System.out.println("Selected Question 9");
+				question9();
+				break;
+			case 10:
+				System.out.println("Selected Question 10");
+				question10(data.getAccounts());
+				break;
+			case 11:
+				System.out.println("Selected Question 11");
+				question11();
+				break;
+			case 12:
+				System.out.println("Selected Question 12");
+				question12();
+				break;
+			case 13:
+				System.out.println("Selected Question 13");
+				question13(data.getAccounts());
+				break;
+			case 14:
+				System.out.println("Selected Question 14");
+				question14(data.getAccounts());
+				break;
+			case 15:
+				System.out.println("Selected Question 15");
+				question15();
+				break;
+			case 16:
+				System.out.println("Selected Question 16");
+				runQ16();
+				break;
+			case 17:
+				System.out.println("Selected Question 17");
+				runQ17();
+				break;
+			default:
+				System.out.println("Invalid option, try again.");
+				break;
+			}
+			Prompt.continuePrompt(scanner);
+		}
+	}
+
+	public void runQ16() {
+		while (true) {
+			System.out.println("Question 16 options:");
+			System.out.printf("%4s%s\n", " ", "(1) Question 10");
+			System.out.printf("%4s%s\n", " ", "(2) Question 11");
+			System.out.printf("%4s%s\n", " ", "(3) Question 12");
+			System.out.printf("%4s%s\n", " ", "(4) Question 13");
+			System.out.printf("%4s%s\n", " ", "(5) Question 14");
+			System.out.printf("%4s%s\n", " ", "(6) Question 15");
+
+			System.out.printf("%4s%s\n", " ", "(0) Back");
+
+			int usrOp = Prompt.getIntegerUserInput(scanner, "\nEnter option: ");
+			switch (usrOp) {
+			case 0:
+				System.out.println("Exiting question 16");
+				return;
+			case 1:
+				question16_10(data.getAccounts());
+				break;
+			case 2:
+				question16_11();
+				break;
+			case 3:
+				question16_12();
+				break;
+			case 4:
+				question16_13(data.getAccounts());
+				break;
+			case 5:
+				question16_14(data.getAccounts());
+				break;
+			case 6:
+				question16_15();
+				break;
+			default:
+				System.out.println("Invalid option, try again.");
+				break;
+			}
+			Prompt.continuePrompt(scanner);
+		}
+	}
+
+	public void runQ17() {
+		while (true) {
+			System.out.println("Question 17 options:");
+			System.out.printf("%4s%s\n", " ", "(1) Question 10");
+			System.out.printf("%4s%s\n", " ", "(2) Question 11");
+			System.out.printf("%4s%s\n", " ", "(3) Question 12");
+			System.out.printf("%4s%s\n", " ", "(4) Question 13");
+			System.out.printf("%4s%s\n", " ", "(5) Question 14");
+			System.out.printf("%4s%s\n", " ", "(6) Question 15");
+
+			System.out.printf("%4s%s\n", " ", "(0) Back");
+
+			int usrOp = Prompt.getIntegerUserInput(scanner, "\nEnter option: ");
+			switch (usrOp) {
+			case 0:
+				System.out.println("Exiting question 17");
+				return;
+			case 1:
+				question17_10(data.getAccounts());
+				break;
+			case 2:
+				question17_11();
+				break;
+			case 3:
+				question17_12();
+				break;
+			case 4:
+				question17_13(data.getAccounts());
+				break;
+			case 5:
+				question17_14(data.getAccounts());
+				break;
+			case 6:
+				question17_15();
+				break;
+			default:
+				System.out.println("Invalid option, try again.");
+				break;
+			}
+			Prompt.continuePrompt(scanner);
+		}
+	}
+
+	private void question1(Account[] accounts) {
 		System.out.println("Question 1");
 		Account acc = getAccountById(accounts, 2);
 		if (acc.getDepartment() == null)
@@ -62,7 +218,7 @@ public class Exercise1 {
 			System.out.printf("This employee's department is: %s%n", acc.getDepartment().getName());
 	}
 
-	private static void question2(Account[] accounts) {
+	private void question2(Account[] accounts) {
 		System.out.println("Question 2");
 		Account acc = getAccountById(accounts, 2);
 		Group[] accGroups = acc.getGroups();
@@ -83,7 +239,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question3(Account[] accounts) {
+	private void question3(Account[] accounts) {
 		System.out.println("Question 3");
 		Account acc = getAccountById(accounts, 2);
 		System.out
@@ -91,7 +247,7 @@ public class Exercise1 {
 						: "This employee does not have a department");
 	}
 
-	private static void question4(Account[] accounts) {
+	private void question4(Account[] accounts) {
 		System.out.println("Question 4");
 		Account acc = getAccountById(accounts, 0);
 		System.out
@@ -99,7 +255,7 @@ public class Exercise1 {
 						: "This employee is not a developer");
 	}
 
-	private static void question5(Group[] groups) {
+	private void question5(Group[] groups) {
 		System.out.println("Question 5");
 		Group grp = getGroupById(groups, 0);
 		switch (grp.getAccounts().length) {
@@ -118,7 +274,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question6(Account[] accounts) {
+	private void question6(Account[] accounts) {
 		System.out.println("Question 6");
 		Group[] accGrps = getAccountById(accounts, 2).getGroups();
 		switch (accGrps.length) {
@@ -139,7 +295,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question7(Account[] accounts) {
+	private void question7(Account[] accounts) {
 		System.out.println("Question 7");
 		Account acc = getAccountById(accounts, 0);
 		switch (acc.getPosition()) {
@@ -152,7 +308,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question8(Account[] accounts) {
+	private void question8(Account[] accounts) {
 		System.out.println("Question 8");
 		System.out.printf("%-20s %-20s %-15s%n", "Email", "Fullname", "Department");
 
@@ -161,7 +317,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question9() {
+	private void question9() {
 		System.out.println("Question 9");
 		System.out.printf("%-4s %-15s%n", "ID", "Department Name");
 
@@ -170,7 +326,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question10(Account[] accounts) {
+	private void question10(Account[] accounts) {
 		System.out.println("Question 10");
 		for (int i = 0; i < accounts.length; i++) {
 			System.out.printf("Information for account #%d:%n", accounts[i].getId());
@@ -182,7 +338,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question11() {
+	private void question11() {
 		System.out.println("Question 11");
 		for (int i = 0; i < Department.values().length; i++) {
 			System.out.printf("Information for Department #%d%n", Department.values()[i].getId());
@@ -191,7 +347,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question12() {
+	private void question12() {
 		System.out.println("Question 12");
 		for (int i = 0; i < 2; i++) {
 			System.out.printf("Information for Department #%d%n", Department.values()[i].getId());
@@ -200,7 +356,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question13(Account[] accounts) {
+	private void question13(Account[] accounts) {
 		System.out.println("Question 13");
 		for (int i = 0; i < accounts.length; i++) {
 			if (accounts[i].getId() == 1)
@@ -214,7 +370,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question14(Account[] accounts) {
+	private void question14(Account[] accounts) {
 		System.out.println("Question 14");
 		for (int i = 0; i < accounts.length; i++) {
 			if (accounts[i].getId() >= 4)
@@ -228,7 +384,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question15() {
+	private void question15() {
 		System.out.println("Question 15");
 		for (int i = 0; i <= 20; i++) {
 			if (i % 2 == 0)
@@ -240,7 +396,7 @@ public class Exercise1 {
 		 */
 	}
 
-	private static void question16_10(Account[] accounts) {
+	private void question16_10(Account[] accounts) {
 		System.out.println("Question 16_10");
 		int i = 0;
 		while (i < accounts.length) {
@@ -254,7 +410,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question16_11() {
+	private void question16_11() {
 		System.out.println("Question 16_11");
 		int i = 0;
 		while (i < Department.values().length) {
@@ -265,7 +421,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question16_12() {
+	private void question16_12() {
 		System.out.println("Question 16_12");
 		int i = 0;
 		while (i < 2) {
@@ -276,7 +432,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question16_13(Account[] accounts) {
+	private void question16_13(Account[] accounts) {
 		System.out.println("Question 16_13");
 		int i = 0;
 		while (i < accounts.length) {
@@ -292,7 +448,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question16_14(Account[] accounts) {
+	private void question16_14(Account[] accounts) {
 		System.out.println("Question 16_14");
 		int i = 0;
 		while (i < accounts.length) {
@@ -308,7 +464,7 @@ public class Exercise1 {
 		}
 	}
 
-	private static void question16_15() {
+	private void question16_15() {
 		System.out.println("Question 16_15");
 		int i = 0;
 		while (i <= 20) {
@@ -316,8 +472,8 @@ public class Exercise1 {
 				System.out.println(i++);
 		}
 	}
-	
-	private static void question17_10(Account[] accounts) {
+
+	private void question17_10(Account[] accounts) {
 		System.out.println("Question 17_10");
 		int i = 0;
 		do {
@@ -330,8 +486,8 @@ public class Exercise1 {
 			++i;
 		} while (i < accounts.length);
 	}
-	
-	private static void question17_11() {
+
+	private void question17_11() {
 		System.out.println("Question 17_11");
 		int i = 0;
 		do {
@@ -341,8 +497,8 @@ public class Exercise1 {
 			++i;
 		} while (i < Department.values().length);
 	}
-	
-	private static void question17_12() {
+
+	private void question17_12() {
 		System.out.println("Question 17_12");
 		int i = 0;
 		do {
@@ -352,8 +508,8 @@ public class Exercise1 {
 			++i;
 		} while (i < 2);
 	}
-	
-	private static void question17_13(Account[] accounts) {
+
+	private void question17_13(Account[] accounts) {
 		System.out.println("Question 17_13");
 		int i = 0;
 		do {
@@ -368,8 +524,8 @@ public class Exercise1 {
 			++i;
 		} while (i < accounts.length);
 	}
-	
-	private static void question17_14(Account[] accounts) {
+
+	private void question17_14(Account[] accounts) {
 		System.out.println("Question 17_14");
 		int i = 0;
 		do {
@@ -384,8 +540,8 @@ public class Exercise1 {
 			++i;
 		} while (i < accounts.length);
 	}
-	
-	private static void question17_15() {
+
+	private void question17_15() {
 		System.out.println("Question 17_15");
 		int i = 0;
 		do {
@@ -394,7 +550,7 @@ public class Exercise1 {
 		} while (i <= 20);
 	}
 
-	private static Account getAccountById(Account[] accounts, int id) {
+	private Account getAccountById(Account[] accounts, int id) {
 		for (Account acc : accounts) {
 			if (acc.getId() == id)
 				return acc;
@@ -402,7 +558,7 @@ public class Exercise1 {
 		return null;
 	}
 
-	private static Group getGroupById(Group[] groups, int id) {
+	private Group getGroupById(Group[] groups, int id) {
 		for (Group grp : groups) {
 			if (grp.getId() == id)
 				return grp;
