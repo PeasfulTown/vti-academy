@@ -40,7 +40,7 @@ public class Exercise1 {
 				break;
 			case 4:
 				System.out.println("Selected Question 4");
-				question4(scanner);
+				question4();
 				break;
 			default:
 				System.out.println("Invalid option, try again.");
@@ -70,7 +70,7 @@ public class Exercise1 {
 		System.out.printf("Last 2 digit of number: %s\n", numStr.substring(numStr.length() - 2));
 	}
 
-	private void question4(Scanner scanner) {		
+	private void question4() {		
 		int inp1 = Prompt.getIntegerUserInput(scanner, "\nEnter first number: ");
 		int inp2 = Prompt.getIntegerUserInput(scanner, "\nEnter second number: ");
 		System.out.printf("%d + %d = %d\n", inp1, inp2, inp1 + inp2);

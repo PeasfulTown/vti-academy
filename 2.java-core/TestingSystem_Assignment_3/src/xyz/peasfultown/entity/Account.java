@@ -1,5 +1,7 @@
 package xyz.peasfultown.entity;
 
+import java.time.LocalDateTime;
+
 public class Account {
 	private static int numberOfAccounts;
 	static {
@@ -11,9 +13,11 @@ public class Account {
 	private String fullname;
 	private Department department;
 	private Position position;
+	private LocalDateTime createDate;
 	private Group[] groups;
 	{
 		this.id = numberOfAccounts++;
+		this.createDate = LocalDateTime.now();
 		this.groups = new Group[0];
 	}
 	
@@ -76,6 +80,14 @@ public class Account {
 
 	public void setPosition(Position position) {
 		this.position = position;
+	}
+	
+	public LocalDateTime getCreateDate() {
+		return this.createDate;
+	}
+	
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
 	}
 
 	public Group[] getGroups() {

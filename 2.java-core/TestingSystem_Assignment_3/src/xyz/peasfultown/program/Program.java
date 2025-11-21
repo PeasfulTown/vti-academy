@@ -6,9 +6,11 @@ import xyz.peasfultown.utils.Prompt;
 
 public class Program {
 	private Scanner scanner;
-	public Program(Scanner scanner) {
+	private Data data;
+	public Program(Scanner scanner, Data data) {
 		System.out.println("Initializing Program...");
 		this.scanner = scanner;
+		this.data = data;
 	}
 	
 	public void run() {
@@ -31,13 +33,20 @@ public class Program {
 				ex1.run();
 				break;
 			case 2:
-				System.out.println("Not yet implemented");
+				Exercise2 ex2 = new Exercise2();
+				ex2.printAccounts();
 				break;
 			case 3: 
-				System.out.println("Not yet implemented");
+				Exercise3 ex3 = new Exercise3(scanner);
+				ex3.run();
 				break;
 			case 4:
-				System.out.println("Not yet implemented");
+				Exercise4 ex4 = new Exercise4(scanner, data);
+				ex4.run();
+				break;
+			case 5:
+				Exercise5 ex5 = new Exercise5(scanner, data);
+				ex5.run();
 				break;
 			default:
 				System.out.println("Invalid option, try again.");
@@ -49,7 +58,8 @@ public class Program {
 	
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		Program program = new Program(scanner);
+		Data data = new Data();
+		Program program = new Program(scanner, data);
 		program.run();
 		scanner.close();
 	}

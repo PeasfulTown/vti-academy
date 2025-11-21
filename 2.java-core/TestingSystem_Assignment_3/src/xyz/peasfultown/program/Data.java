@@ -12,6 +12,7 @@ import xyz.peasfultown.entity.Question;
 import xyz.peasfultown.entity.TypeQuestion;
 
 public class Data {
+	private Department[] departments;
 	private Account[] accounts;
 	private Group[] groups;
 	private Question[] questions;
@@ -19,18 +20,32 @@ public class Data {
 	private Exam[] exams;
 
 	public Data() {
-		Account acc0 = new Account("acc1@gmail.com", "acc1", "acc1FullName", Department.SALES, Position.DEV);
-		Account acc1 = new Account("acc2@gmail.com", "acc2", "acc2FullName", Department.WAITING_ROOM, Position.INTERN);
-		Account acc2 = new Account("acc3@gmail.com", "acc3", "acc3FullName", Department.CUSTOMER_SERVICE, Position.DEV);
-		Account acc3 = new Account("acc4@gmail.com", "acc4", "acc4FullName", Department.MARKETING, Position.PM);
-		Account acc4 = new Account("acc5@gmail.com", "acc5", "acc5FullName", Department.INFORMATION_TECHNOLOGY,
-				Position.DEV);
+		Department dep0 = new Department("Sales", "Quebec");
+		Department dep1 = new Department("Department A", "Montreal");
+		Department dep2 = new Department("Human Resources", "Quebec");
+		Department dep3 = new Department("Finance", "Los Angeles");
+		Department dep4 = new Department("Information Technology", "New York");
+		Department dep5 = new Department("Customer Service", "Toronto");
+		Department dep6 = new Department("Maintenance", "Calgary");
+		Department dep7 = new Department("Security", "Winnipeg");
+		Department dep8 = new Department("Operations", "Washington");
+		Department dep9 = new Department("Administration", "Wisconsin");
+		Department dep10 = new Department("Waiting Room", "Texas");
+		Department dep11 = new Department("Marketing", "Montreal");
+		
+		Account acc0 = new Account("acc1@gmail.com", "acc1", "acc1FullName", dep0, Position.DEV);
+		Account acc1 = new Account("acc2@gmail.com", "acc2", "acc2FullName", dep10, Position.INTERN);
+		Account acc2 = new Account("acc3@gmail.com", "acc3", "acc3FullName", dep6, Position.DEV);
+		Account acc3 = new Account("acc4@gmail.com", "acc4", "acc4FullName", dep8, Position.PM);
+		Account acc4 = new Account("acc5@gmail.com", "acc5", "acc5FullName", dep2, Position.DEV);
 
 		Group grp0 = new Group("Grp1", acc2);
 		Group grp1 = new Group("Grp2", acc3);
 		Group grp2 = new Group("Grp3", acc1);
 		Group grp3 = new Group("Grp4", acc1);
 		Group grp4 = new Group("Grp5", acc1);
+		Group grp5 = new Group("Java", acc2);
+		Group grp6 = new Group("Java", acc1);
 
 		acc1.addGroup(grp4, grp3);
 		acc1.addGroup(grp2, grp1);
@@ -70,13 +85,18 @@ public class Data {
 		exam0.addQuestion(q0, q1);
 		exam1.addQuestion(q0, q1, q2);
 
+		this.departments = new Department[] { dep0, dep1, dep2, dep3, dep4, dep5, dep6, dep7, dep8, dep9, dep10 };
 		this.accounts = new Account[] { acc0, acc1, acc2, acc3, acc4 };
-		this.groups = new Group[] { grp0, grp1, grp2, grp3, grp4 };
+		this.groups = new Group[] { grp0, grp1, grp2, grp3, grp4, grp5, grp6 };
 		this.questions = new Question[] { q0, q1, q2 };
 		this.answers = new Answer[] { ans0, ans1, ans2 };
 		this.exams = new Exam[] { exam0, exam1, exam2 };
 	}
 
+	Department[] getDepartments() {
+		return this.departments;
+	}
+	
 	Account[] getAccounts() {
 		return this.accounts;
 	}
