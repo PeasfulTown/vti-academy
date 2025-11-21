@@ -1,22 +1,66 @@
 package xyz.peasfultown.program;
 
 import xyz.peasfultown.entity.Account;
+import xyz.peasfultown.utils.Prompt;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Exercise4 {
-	public static void main(String[] args) {
-		Random rand = new Random();
-		Program program = new Program();
-		Account[] accounts = program.getAccounts();
-		
-		question1(rand);
-		question2(rand);
-		question3(accounts, rand);
-		question4(rand);
-		question5(rand);
+	private Scanner scanner;
+	private Random rand;
+	private Data data;
+	
+	public Exercise4(Scanner scanner, Random rand, Data data) {
+		this.scanner = scanner;
+		this.rand = rand;
+		this.data = data;
+	}
+	
+	public void run() {
+		while (true) {
+			System.out.println("Exercise 4 Options:");
+			System.out.printf("%4s%s\n", " ", "(1) Question 1");
+			System.out.printf("%4s%s\n", " ", "(2) Question 2");
+			System.out.printf("%4s%s\n", " ", "(3) Question 3");
+			System.out.printf("%4s%s\n", " ", "(4) Question 4");
+			System.out.printf("%4s%s\n", " ", "(5) Question 5");
+
+			System.out.printf("%4s%s\n", " ", "(0) Exit Exercise 4");
+
+			int usrOp = Prompt.getIntegerUserInput(scanner, "\nEnter option: ");
+			System.out.println();
+			switch (usrOp) {
+			case 0:
+				System.out.println("\nExitting Exercise 4\n");
+				return;
+			case 1:
+				System.out.println("Selected Question 1");
+				question1(rand);
+				break;
+			case 2:
+				System.out.println("Selected Question 2");
+				question2(rand);
+				break;
+			case 3:
+				System.out.println("Selected Question 3");
+				question3(rand, data.getAccounts());
+				break;
+			case 4:
+				System.out.println("Selected Question 4");
+				question4(rand);
+				break;
+			case 5:
+				System.out.println("Selected Question 5");
+				question5(rand);
+				break;
+			default:
+				System.out.println("Invalid option, try again.");
+				break;
+			}
+			Prompt.continuePrompt(scanner);
+		}
 	}
 	
 	public static void question1(Random rand) {
@@ -29,7 +73,7 @@ public class Exercise4 {
 		System.out.println(rand.nextFloat());
 	}
 	
-	public static void question3(Account[] accounts, Random rand) {
+	public static void question3(Random rand, Account[] accounts) {
 		System.out.println("Question 3");
 		int randId = rand.nextInt(accounts.length);
 		System.out.println(accounts[randId].getFullname());
@@ -56,6 +100,6 @@ public class Exercise4 {
 	}
 	
 	public static void question7(Random rand) {
-		System.out.printf("Random 3 digit number: %d%n", rand.nextInt(100, 999));
+		System.out.printf("Random 3 digit number: %d%n", rand.nextInt(100, 1000)); 
 	}
 }

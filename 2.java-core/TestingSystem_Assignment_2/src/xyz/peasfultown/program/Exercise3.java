@@ -2,19 +2,63 @@ package xyz.peasfultown.program;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Scanner;
 
 import xyz.peasfultown.entity.Exam;
+import xyz.peasfultown.utils.Prompt;
 
 public class Exercise3 {
-	public static void main(String[] args) {
-		Program program = new Program();
-		Exam[] exams = program.getExams();
-		
-		question1(exams);
-		question2(exams);
-		question3(exams);
-		question4(exams);
-		question5(exams);
+	private Scanner scanner;
+	private Data data;
+	
+	public Exercise3(Scanner scanner, Data data) {
+		this.scanner = scanner;
+		this.data = data;
+	}
+	
+	public void run() {
+		while (true) {
+			System.out.println("Exercise 3 Options:");
+			System.out.printf("%4s%s\n", " ", "(1) Question 1");
+			System.out.printf("%4s%s\n", " ", "(2) Question 2");
+			System.out.printf("%4s%s\n", " ", "(3) Question 3");
+			System.out.printf("%4s%s\n", " ", "(4) Question 4");
+			System.out.printf("%4s%s\n", " ", "(5) Question 5");
+
+			System.out.printf("%4s%s\n", " ", "(0) Exit Exercise 3");
+
+			int usrOp = Prompt.getIntegerUserInput(scanner, "\nEnter option: ");
+			System.out.println();
+			switch (usrOp) {
+			case 0:
+				System.out.println("\nExitting Exercise 3\n");
+				return;
+			case 1:
+				System.out.println("Selected Question 1");
+				question1(data.getExams());
+				break;
+			case 2:
+				System.out.println("Selected Question 2");
+				question2(data.getExams());
+				break;
+			case 3:
+				System.out.println("Selected Question 3");
+				question3(data.getExams());
+				break;
+			case 4:
+				System.out.println("Selected Question 4");
+				question4(data.getExams());
+				break;
+			case 5:
+				System.out.println("Selected Question 5");
+				question5(data.getExams());
+				break;
+			default:
+				System.out.println("Invalid option, try again.");
+				break;
+			}
+			Prompt.continuePrompt(scanner);
+		}
 	}
 	
 	public static void question1(Exam[] exams) {

@@ -21,6 +21,26 @@ public class Account {
 		this.groups = new Group[0];
 	}
 	
+	public Account() {
+		this("", "", "", null, null);
+		this.id = 0;
+	}
+	
+	public Account(int id, String email, String username, String firstname, String lastname) {
+		this(email, username, firstname + " " + lastname, null, null);
+		this.id = id;
+	}
+	
+	public Account(int id, String email, String username, String firstname, String lastname, Position position) {
+		this(id, email, username, firstname, lastname);
+		this.position = position;
+	}
+	
+	public Account(int id, String email, String username, String firstname, String lastname, Position position, LocalDateTime createDate) {
+		this(id, email, username, firstname, lastname, position);
+		this.createDate = createDate;
+	}
+	
 	public Account(String email, String username, String fullname, Department department, Position position) {
 		this.email = email;
 		this.username = username;

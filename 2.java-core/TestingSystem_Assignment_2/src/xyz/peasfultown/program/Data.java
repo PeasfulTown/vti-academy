@@ -14,14 +14,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Program {
+public class Data {
 	private Account[] accounts;
 	private Group[] groups;
 	private Question[] questions;
 	private Answer[] answers;
 	private Exam[] exams;
 	
-	Program() {		
+	Data() {		
 		Account acc0 = new Account("acc1@gmail.com", "acc1", "acc1FullName", Department.SALES, Position.DEV);
 		Account acc1 = new Account("acc2@gmail.com", "acc2", "acc2FullName", Department.WAITING_ROOM, Position.INTERN);
 		Account acc2 = new Account("acc3@gmail.com", "acc3", "acc3FullName", Department.CUSTOMER_SERVICE, Position.DEV);

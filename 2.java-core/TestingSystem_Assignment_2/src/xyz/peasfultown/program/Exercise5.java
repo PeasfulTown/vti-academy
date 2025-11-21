@@ -1,6 +1,5 @@
 package xyz.peasfultown.program;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 import xyz.peasfultown.entity.Account;
@@ -9,16 +8,59 @@ import xyz.peasfultown.entity.Department;
 import xyz.peasfultown.entity.Position;
 import xyz.peasfultown.entity.Question;
 import xyz.peasfultown.entity.TypeQuestion;
+import xyz.peasfultown.utils.Prompt;
 
 public class Exercise5 {
-	public static void main(String[] args) {
-		Program program = new Program();
-		Account[] accounts = program.getAccounts();
-//		question1();
-//		question2();
-//		question3();
-//		question5();
-		question8(accounts);
+	private Scanner scanner;
+	private Data program;
+	public Exercise5(Scanner scanner, Data program) {
+		this.scanner = scanner;
+		this.program = program;
+	}
+	
+	public void run() {
+		while (true) {
+			System.out.println("Exercise 5 Options:");
+			System.out.printf("%4s%s\n", " ", "(1) Question 1");
+			System.out.printf("%4s%s\n", " ", "(2) Question 2");
+			System.out.printf("%4s%s\n", " ", "(3) Question 3");
+			System.out.printf("%4s%s\n", " ", "(5) Question 5");
+			System.out.printf("%4s%s\n", " ", "(8) Question 8");
+		
+			System.out.printf("%4s%s\n", " ", "(0) Exit Exercise 5");
+
+			int usrOp = Prompt.getIntegerUserInput(scanner, "\nEnter option: ");
+			System.out.println();
+			switch (usrOp) {
+			case 0:
+				System.out.println("\nExitting Exercise 1\n");
+				return;
+			case 1:
+				System.out.println("Selected Question 1");
+				question1();
+				break;
+			case 2:
+				System.out.println("Selected Question 2");
+				question2();
+				break;
+			case 3:
+				System.out.println("Selected Question 3");
+				question3();
+				break;
+			case 5:
+				System.out.println("Selected Question 5");
+				question5();
+				break;
+			case 8:
+				System.out.println("Selected Question 8");
+				question8(program.getAccounts());
+				break;
+			default:
+				System.out.println("Invalid option, try again.");
+				break;
+			}
+			Prompt.continuePrompt(scanner);
+		}
 	}
 
 	public static void question1() {

@@ -9,9 +9,15 @@ public class Department {
 	private String name;
 	private String address;
 	
-	public Department(String name, String address) {
-		this.id = numberOfDepartments++;
+	public Department(String name) {
+		this.id = 0;
 		this.name = name;
+		this.address = null;
+	}
+	
+	public Department(String name, String address) {
+		this(name);
+		this.id = numberOfDepartments++;
 		this.address = address;
 	}
 	

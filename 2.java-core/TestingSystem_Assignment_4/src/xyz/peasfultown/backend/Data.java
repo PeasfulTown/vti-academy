@@ -1,4 +1,4 @@
-package xyz.peasfultown.program;
+package xyz.peasfultown.backend;
 
 import java.time.Duration;
 import xyz.peasfultown.entity.Account;
