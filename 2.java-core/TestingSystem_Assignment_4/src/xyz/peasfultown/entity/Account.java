@@ -26,6 +26,10 @@ public class Account {
 		this.id = 0;
 	}
 	
+	public Account(String username) {
+		this(0, "", username, "", "");
+	}
+	
 	public Account(int id, String email, String username, String firstname, String lastname) {
 		this(email, username, firstname + " " + lastname, null, null);
 		this.id = id;
@@ -139,6 +143,6 @@ public class Account {
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", email=" + email + ", username=" + username + ", fullname=" + fullname
-				+ ", department=" + department.getName() + ", position=" + position.getName() + "]";
+				+ ", department=" + (this.department != null ? department.getName() : "null") + ", position=" + (this.position != null ? position.getName() : "null") + "]";
 	}
 }

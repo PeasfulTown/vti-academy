@@ -2,7 +2,8 @@ package xyz.peasfultown.utils;
 
 import java.util.Scanner;
 
-public class Prompt {
+public class PromptUtils {
+	
 	public static int getIntegerUserInput(Scanner scanner, String message) {
 		while (true) {
 			System.out.print(message);

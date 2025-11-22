@@ -19,6 +19,12 @@ public class Group {
 		this.createDate = LocalDateTime.now();
 		this.accounts = new Account[0];
 	}
+	
+	public Group() {
+		this.id = 0;
+		this.name = "New Group";
+		this.creator = null;
+	}
 
 	public Group(String name, Account creator) {
 		this.name = name;
@@ -38,6 +44,13 @@ public class Group {
 	public Group(String name, Account creator, LocalDateTime createDate, Account[] accounts) {
 		this(name, creator, createDate);
 		this.accounts = accounts;
+	}
+	
+	public Group(String name, Account creator, LocalDateTime createDate, String[] usernames) {
+		this(name, creator, createDate);
+		for (String usrnme : usernames) {
+			this.addAccount(new Account(usrnme));
+		}
 	}
 	
 	public static int getNumberOfGroups() {

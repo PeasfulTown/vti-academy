@@ -9,10 +9,14 @@ public class Department {
 	private String name;
 	private String address;
 	
+	public Department() {
+		this("Unknown");
+	}
+	
 	public Department(String name) {
 		this.id = 0;
 		this.name = name;
-		this.address = null;
+		this.address = "Unknown";
 	}
 	
 	public Department(String name, String address) {
