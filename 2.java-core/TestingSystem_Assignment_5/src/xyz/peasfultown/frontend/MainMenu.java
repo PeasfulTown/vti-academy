@@ -34,13 +34,9 @@ public class MainMenu {
 				System.out.println("Exiting program");
 				return;
 			case 1:
-				NewsController nc = new NewsController();
-				this.mn = new MyNews(this.scanner, nc);
-				mn.run();
+				this.mn.run();
 				break;
 			case 2:
-				StudentController sc = new StudentController();
-				this.sm = new StudentMenu(this.scanner, sc);
 				this.sm.insert10Students();
 				this.sm.run();
 				break;
