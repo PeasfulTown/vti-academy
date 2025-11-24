@@ -33,11 +33,6 @@ public class NewsController {
 	}
 	
 	public void delete(String title) {
-		Iterator<News> itr = this.news.iterator();
-		while(itr.hasNext()) {
-			News n = itr.next();
-			if (n.getTitle().equals(title))
-				itr.remove();
-		}
+		this.news.remove(this.get(title));
 	}
 }
