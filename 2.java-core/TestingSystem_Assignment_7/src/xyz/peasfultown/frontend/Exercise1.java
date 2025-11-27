@@ -22,7 +22,7 @@ public class Exercise1 {
 	public void run() {
 		while (true) {
 			System.out.println("Testing System 7 Menu");
-			this.printOptions(
+			ScannerUtils.printOptions(
 					"Question 1: Print Student college",
 					"Question 2: Group money",
 					"Question 3: MyMath",
@@ -68,7 +68,7 @@ public class Exercise1 {
 		ArrayList<Shape> shapes = new ArrayList<>();
 		while (true) {
 			System.out.println("Create shapes");
-			printOptions("Create Rectangle", "Create Circle", "List shapes");
+			ScannerUtils.printOptions("Create Rectangle", "Create Circle", "List shapes");
 			int usrop = ScannerUtils.inputInt(scanner, "Enter option: ");
 			switch (usrop) {
 			case 0:
@@ -103,13 +103,5 @@ public class Exercise1 {
 				break;
 			}
 		}
-	}
-	
-
-	private void printOptions(String... options) {
-		for (int i = 0; i < options.length; i++) {
-			System.out.printf("%4s(%d) %s\n", "", i+1, options[i]);
-		}
-		System.out.printf("%4s%s\n", "", "(0) Back");
 	}
 }

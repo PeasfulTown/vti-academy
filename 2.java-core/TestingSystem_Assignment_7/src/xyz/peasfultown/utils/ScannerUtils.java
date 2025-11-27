@@ -3,6 +3,14 @@ package xyz.peasfultown.utils;
 import java.util.Scanner;
 
 public class ScannerUtils {
+
+	public static void printOptions(String... options) {
+		for (int i = 0; i < options.length; i++) {
+			System.out.printf("%4s(%d) %s\n", "", i+1, options[i]);
+		}
+		System.out.printf("%4s%s\n", "", "(0) Back");
+	}
+	
 	public static int inputInt(Scanner scanner, String message) {
 		while (true) {
 			System.out.print(message);
