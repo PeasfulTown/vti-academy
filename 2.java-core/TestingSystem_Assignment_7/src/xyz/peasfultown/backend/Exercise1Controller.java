@@ -5,16 +5,20 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import xyz.peasfultown.entity.Circle;
 import xyz.peasfultown.entity.MyMath;
 import xyz.peasfultown.entity.PrimaryStudent;
+import xyz.peasfultown.entity.Rectangle;
 import xyz.peasfultown.entity.SecondaryStudent;
 import xyz.peasfultown.entity.Shape;
 import xyz.peasfultown.entity.Student;
 
 public class Exercise1Controller {
 	private ArrayList<Student> students;
+	private ArrayList<Shape> shapes;
 	public Exercise1Controller() {
 		this.students = new ArrayList<>();
+		this.shapes = new ArrayList<>();
 		try {
 			this.addStudent(new PrimaryStudent("Primary Student 1"), new PrimaryStudent("Primary Student 2"),
 					new SecondaryStudent("Secondary Student 1"), new SecondaryStudent("Secondary Student 2"),
@@ -36,8 +40,8 @@ public class Exercise1Controller {
 		this.addStudent(Arrays.asList(student));
 	}
 
-	private void showStudentsInfo(ArrayList<Student> students) {
-		Iterator<Student> itr = students.iterator();
+	private void showStudentsInfo() {
+		Iterator<Student> itr = this.students.iterator();
 		while (itr.hasNext())
 			itr.next().showInfo();
 	}
@@ -45,17 +49,28 @@ public class Exercise1Controller {
 	private void printStudentGroupMoney() {
 		System.out.printf("Total group money: %,dVND\n", Student.getMoney());
 	}
+	
+	public void addShape(Shape shape) {
+		this.shapes.add(shape);
+	}
+	
+	public void showShapesInfo() {
+		Iterator<Shape> itr = this.shapes.iterator();
+		while (itr.hasNext())
+			itr.next().showInfo();
+		System.out.printf("Total Shape count: %d\n", Shape.getCount());
+	}
 
 	public void question1() {
 		Student.setCollege("Dai Hoc Bach Khoa");
 
 		System.out.println("First college value:");
-		this.showStudentsInfo(students);
+		this.showStudentsInfo();
 
 		Student.setCollege("Dai Hoc Cong Nghe");
 		
 		System.out.println("Second college value:");
-		this.showStudentsInfo(students);
+		this.showStudentsInfo();
 	}
 
 	public void question2() {
@@ -91,5 +106,6 @@ public class Exercise1Controller {
 		System.out.printf("Number of PrimaryStudents: %d\n", PrimaryStudent.getCount());
 		System.out.printf("Number of SecondaryStudents: %d\n", SecondaryStudent.getCount());
 	}
-
+	
+	
 }

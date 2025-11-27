@@ -5,12 +5,21 @@ public class Student {
 	private static String college;
 	private static int money;
 	
-	private int id;
+	private final int id;
 	private String name;
-	
+
 	public Student(String name) throws Exception {
 		if (count < 7) {
 			this.id = count++;
+			this.name = name;			
+		} else {
+			throw new Exception("Not allowed to create more than 7 Students");
+		}
+	}
+
+	public Student(int id, String name) throws Exception {
+		if (count < 7) {
+			this.id = id;
 			this.name = name;			
 		} else {
 			throw new Exception("Not allowed to create more than 7 Students");
@@ -36,10 +45,6 @@ public class Student {
 	public int getId() {
 		return id;
 	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -62,6 +67,10 @@ public class Student {
 	public void spend(int amount, String... items) {
 		System.out.printf("Student %s spent %,dVND to buy %s\n", this.name, amount, String.join(", ", items));
 		money -= amount;
+	}
+	
+	public final void study() {
+		System.out.printf("%s is studying...", this.name);
 	}
 	
 	public void showInfo() {

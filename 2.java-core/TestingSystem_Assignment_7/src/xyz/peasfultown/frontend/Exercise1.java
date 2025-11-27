@@ -78,7 +78,7 @@ public class Exercise1 {
 				float width = ScannerUtils.inputFloat(scanner, "Enter rectangle width: ", "Invalid input, try again");
 				try {
 					Rectangle rec = new Rectangle(length, width);
-					shapes.add(rec);						
+					this.ex1.addShape(rec);						
 					rec.showInfo();
 				}
 				catch (ShapeException e) {
@@ -96,10 +96,7 @@ public class Exercise1 {
 				}
 				break;
 			case 3:
-				Iterator<Shape> itr = shapes.iterator();
-				while (itr.hasNext())
-					itr.next().showInfo();
-				System.out.printf("Shapes count: %d\n", Shape.getCount());
+				this.ex1.showShapesInfo();
 				break;
 			default: 
 				System.out.println("Invalid option, try again");
