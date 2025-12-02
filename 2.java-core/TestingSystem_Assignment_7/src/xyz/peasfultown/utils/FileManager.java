@@ -1,8 +1,12 @@
 package xyz.peasfultown.utils;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileAlreadyExistsException;
@@ -15,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
+	private static final String FILE_ALREADY_EXISTS_EXCEPTION_MSG = "This file already exists";
+	private static final String FILE_NOT_FOUND_EXCEPTION_MSG = "Found not found";
+	
 	public static boolean isFileExists(String path) {
 		return Files.exists(Paths.get(path));
 	}
@@ -23,9 +30,10 @@ public class FileManager {
 		try {
 			Files.createFile(Paths.get(path));
 		} catch (FileAlreadyExistsException fae) {
-			System.err.println("This file already exists");
+			System.err.println(FILE_ALREADY_EXISTS_EXCEPTION_MSG);
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 	}
 
@@ -33,9 +41,10 @@ public class FileManager {
 		try {
 			Files.createFile(Paths.get(path).resolve(filename));
 		} catch (FileAlreadyExistsException fae) {
-			System.err.println("This file already exists");
+			System.err.println(FILE_ALREADY_EXISTS_EXCEPTION_MSG);
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 	}
 	
@@ -43,11 +52,12 @@ public class FileManager {
 		try {
 			Files.delete(Paths.get(path));
 		} catch (NoSuchFileException nsfe) {
-			System.err.println(nsfe.getMessage());
+			System.err.println(FILE_NOT_FOUND_EXCEPTION_MSG);
 		} catch (DirectoryNotEmptyException dnee) {
 			System.err.println(dnee.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 	}
 	
@@ -65,6 +75,7 @@ public class FileManager {
 			System.err.println(nde.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 		
 		return filenames;
@@ -81,6 +92,7 @@ public class FileManager {
 			System.err.println(faee.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 	}
 	
@@ -96,6 +108,7 @@ public class FileManager {
 			System.err.println(faee.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 	}
 	
@@ -111,6 +124,7 @@ public class FileManager {
 			System.err.println(faee.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 	}
 	
@@ -126,6 +140,7 @@ public class FileManager {
 			System.err.println(faee.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 	}
 	
@@ -136,10 +151,22 @@ public class FileManager {
 			System.err.println(faee.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
 		}
 	}
 	
 	public static void downloadFile(String link, String target) {
-
+		try (ReadableByteChannel readChannel = Channels.newChannel(new URL(link).openStream());
+				FileOutputStream outputStream = new FileOutputStream(target);
+				FileChannel outputChannel =  outputStream.getChannel()) {
+			if (isFileExists(target))
+				throw new FileAlreadyExistsException(FILE_ALREADY_EXISTS_EXCEPTION_MSG);
+			outputChannel.transferFrom(readChannel, 0, Long.MAX_VALUE);
+		} catch (FileAlreadyExistsException faee) {
+			System.err.println(faee.getMessage());
+		} catch (IOException ioe) {
+			System.err.println(ioe.getMessage());
+			ioe.printStackTrace();
+		}
 	}
 }

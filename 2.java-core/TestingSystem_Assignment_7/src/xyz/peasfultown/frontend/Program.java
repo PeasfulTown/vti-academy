@@ -1,10 +1,11 @@
 package xyz.peasfultown.frontend;
 
 import java.net.URI;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import xyz.peasfultown.backend.Exercise1Controller;
-import xyz.peasfultown.utils.FileManager;
+import xyz.peasfultown.utils.IOManager;
 import xyz.peasfultown.utils.ScannerUtils;
 
 public class Program {
@@ -36,9 +37,11 @@ public class Program {
 		}
 	}
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		Program program = new Program(scanner);
-		program.run();
-		scanner.close();
+//		Scanner scanner = new Scanner(System.in);
+//		Program program = new Program(scanner);
+//		program.run();
+//		scanner.close();
+		
+		System.out.println(IOManager.readFile(Paths.get("./src/resources/student-inf.txt").toAbsolutePath().toString()));
 	}
 }
