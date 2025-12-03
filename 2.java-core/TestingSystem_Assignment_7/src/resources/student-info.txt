@@ -1,0 +1,9 @@
+Student 1:
+	Id: 1
+	Fullname: Nguyen Van A
+Student 2:
+	Id: 2
+	Fullname: Nguyen Van B
+Student 3:
+	Id: 3
+	Fullname: Nguyen Van C
