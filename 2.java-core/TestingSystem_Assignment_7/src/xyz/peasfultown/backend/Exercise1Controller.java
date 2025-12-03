@@ -19,13 +19,11 @@ public class Exercise1Controller {
 	public Exercise1Controller() {
 		this.students = new ArrayList<>();
 		this.shapes = new ArrayList<>();
-		try {
-			this.addStudent(new PrimaryStudent("Primary Student 1"), new PrimaryStudent("Primary Student 2"),
-					new SecondaryStudent("Secondary Student 1"), new SecondaryStudent("Secondary Student 2"),
-					new SecondaryStudent("Secondary Student 3"), new SecondaryStudent("Secondary Student 4"));			
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
+	
+		this.addStudent(new PrimaryStudent("Primary Student 1"), new PrimaryStudent("Primary Student 2"),
+				new SecondaryStudent("Secondary Student 1"), new SecondaryStudent("Secondary Student 2"),
+				new SecondaryStudent("Secondary Student 3"), new SecondaryStudent("Secondary Student 4"));			
+	
 	}
 	
 	private void addStudent(Student student) {

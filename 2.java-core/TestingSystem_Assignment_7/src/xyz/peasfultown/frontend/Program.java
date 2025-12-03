@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Scanner;
 
 import xyz.peasfultown.backend.Exercise1Controller;
+import xyz.peasfultown.entity.MyException;
 import xyz.peasfultown.entity.Student;
 import xyz.peasfultown.utils.IOManager;
+import xyz.peasfultown.utils.LogUtils;
 import xyz.peasfultown.utils.ScannerUtils;
 
 public class Program {

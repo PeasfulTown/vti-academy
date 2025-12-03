@@ -3,7 +3,7 @@ package xyz.peasfultown.entity;
 public abstract class Shape {
 	private static int count = 0;
 	
-	public Shape() throws ShapeException {
+	public Shape() {
 		if (count < Configs.MAX_NUMBER_OF_SHAPES)
 			count++;
 		else

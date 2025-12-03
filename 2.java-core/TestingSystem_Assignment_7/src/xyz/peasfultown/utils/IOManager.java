@@ -85,7 +85,7 @@ public class IOManager {
 	public static void writeObject(Object obj, String path) {
 		File file = new File(Paths.get(path).toString());
 		try (ObjectOutputStream objout = new ObjectOutputStream(
-				new BufferedOutputStream(new FileOutputStream(file)))) {
+				new BufferedOutputStream(new FileOutputStream(file, true)))) {
 			objout.writeObject(obj);
 		} catch (IOException ioe) {
 			System.err.println(IO_EXCEPTION_MSG);
@@ -96,7 +96,7 @@ public class IOManager {
 	public static void writeObject(Object obj, String path, String filename) {
 		File file = new File(Paths.get(path).resolve(filename).toString());
 		try (ObjectOutputStream objout = new ObjectOutputStream(
-				new BufferedOutputStream(new FileOutputStream(file)))) {
+				new BufferedOutputStream(new FileOutputStream(file, true)))) {
 			objout.writeObject(obj);
 		} catch (IOException ioe) {
 			System.err.println(IO_EXCEPTION_MSG);
@@ -107,7 +107,7 @@ public class IOManager {
 	public static void writeObjects(List<Object> objs, String path) {
 		File file = new File(Paths.get(path).toString());
 		try (ObjectOutputStream objout = new ObjectOutputStream(
-				new BufferedOutputStream(new FileOutputStream(file)))) {
+				new BufferedOutputStream(new FileOutputStream(file, true)))) {
 			
 			Iterator<Object> itr = objs.iterator();
 			while (itr.hasNext())
