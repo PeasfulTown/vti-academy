@@ -2,6 +2,8 @@ package xyz.peasfultown.frontend;
 
 import java.net.URI;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import xyz.peasfultown.backend.Exercise1Controller;
@@ -17,7 +19,7 @@ public class Program {
 	public void run() {
 		while (true) {
 			System.out.println("Testing System 7 Menu");
-			ScannerUtils.printOptions("Exercise 1 Demo", "Exercise 3 Demo");
+			ScannerUtils.printOptions("Exercise 1 Demo", "Exercise 3 Demo", "Exercise 5 Demo");
 			int usrop = ScannerUtils.inputInt(this.scanner, "Enter option: ");
 			switch (usrop) {
 			case 0:
@@ -31,6 +33,10 @@ public class Program {
 				Exercise3 ex3 = new Exercise3(this.scanner);
 				ex3.run();
 				break;
+			case 3:
+				Exercise5 ex5 = new Exercise5(this.scanner);
+				ex5.run();
+				break;
 			default: 
 				System.err.println("Invalid input, try again");
 				break;
@@ -42,6 +48,5 @@ public class Program {
 		Program program = new Program(scanner);
 		program.run();
 		scanner.close();
-		
 	}
 }

@@ -14,12 +14,12 @@ public class Student implements Serializable {
 	private int id;
 	private String name;
 
-	public Student(String name) throws Exception {
+	public Student(String name) throws TooManyStudentsException {
 		if (count < 7) {
 			this.id = count++;
 			this.name = name;			
 		} else {
-			throw new Exception("Not allowed to create more than 7 Students");
+			throw new TooManyStudentsException();
 		}
 	}
 
@@ -28,7 +28,7 @@ public class Student implements Serializable {
 			this.id = id;
 			this.name = name;			
 		} else {
-			throw new Exception("Not allowed to create more than 7 Students");
+			throw new TooManyStudentsException();
 		}
 	}
 

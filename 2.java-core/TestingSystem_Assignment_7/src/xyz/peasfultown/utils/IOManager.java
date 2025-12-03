@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -80,7 +82,7 @@ public class IOManager {
 //		}
 //	}
 	
-	public static void writeObject(Serializable obj, String path) {
+	public static void writeObject(Object obj, String path) {
 		File file = new File(Paths.get(path).toString());
 		try (ObjectOutputStream objout = new ObjectOutputStream(
 				new BufferedOutputStream(new FileOutputStream(file)))) {
@@ -91,11 +93,25 @@ public class IOManager {
 		}
 	}
 	
-	public static void writeObject(Serializable obj, String path, String filename) {
+	public static void writeObject(Object obj, String path, String filename) {
 		File file = new File(Paths.get(path).resolve(filename).toString());
 		try (ObjectOutputStream objout = new ObjectOutputStream(
 				new BufferedOutputStream(new FileOutputStream(file)))) {
 			objout.writeObject(obj);
+		} catch (IOException ioe) {
+			System.err.println(IO_EXCEPTION_MSG);
+			ioe.printStackTrace();
+		}
+	}
+	
+	public static void writeObjects(List<Object> objs, String path) {
+		File file = new File(Paths.get(path).toString());
+		try (ObjectOutputStream objout = new ObjectOutputStream(
+				new BufferedOutputStream(new FileOutputStream(file)))) {
+			
+			Iterator<Object> itr = objs.iterator();
+			while (itr.hasNext())
+				objout.writeObject(itr.next());
 		} catch (IOException ioe) {
 			System.err.println(IO_EXCEPTION_MSG);
 			ioe.printStackTrace();
@@ -123,7 +139,11 @@ public class IOManager {
 		List<Object> objects = new ArrayList<>();
 		try (ObjectInputStream obin = new ObjectInputStream(
 				new BufferedInputStream(new FileInputStream(file)))) {
-			objects.add(obin.readObject());
+			while (true) {
+				objects.add(obin.readObject());				
+			}
+		} catch (EOFException eofe) {
+			
 		} catch (ClassNotFoundException cnfe) {
 			System.err.println(CLASS_NOT_FOUND_EXCEPTION_MSG);
 		} catch (IOException ioe) {
