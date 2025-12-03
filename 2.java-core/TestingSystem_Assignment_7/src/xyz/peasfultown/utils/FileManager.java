@@ -1,6 +1,5 @@
 package xyz.peasfultown.utils;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -20,7 +19,7 @@ import java.util.List;
 
 public class FileManager {
 	private static final String FILE_ALREADY_EXISTS_EXCEPTION_MSG = "This file already exists";
-	private static final String FILE_NOT_FOUND_EXCEPTION_MSG = "Found not found";
+	private static final String NO_SUCH_FILE_EXCEPTION = "Found not found";
 	
 	public static boolean isFileExists(String path) {
 		return Files.exists(Paths.get(path));
@@ -52,7 +51,7 @@ public class FileManager {
 		try {
 			Files.delete(Paths.get(path));
 		} catch (NoSuchFileException nsfe) {
-			System.err.println(FILE_NOT_FOUND_EXCEPTION_MSG);
+			System.err.println(NO_SUCH_FILE_EXCEPTION);
 		} catch (DirectoryNotEmptyException dnee) {
 			System.err.println(dnee.getMessage());
 		} catch (IOException ioe) {
@@ -84,9 +83,9 @@ public class FileManager {
 	public static void copyFile(String source, String target, String newName) {
 		try {
 			if (!isFileExists(source))
-				throw new FileNotFoundException();
+				throw new NoSuchFileException(NO_SUCH_FILE_EXCEPTION);
 			Files.copy(Paths.get(source), Paths.get(target).resolve(newName));
-		} catch (FileNotFoundException fnfe) {
+		} catch (NoSuchFileException fnfe) {
 			System.err.println(fnfe.getMessage());
 		} catch (FileAlreadyExistsException faee) {
 			System.err.println(faee.getMessage());
@@ -100,9 +99,9 @@ public class FileManager {
 		try {
 			Path orig = Paths.get(source);
 			if (!isFileExists(source))
-				throw new FileNotFoundException();
+				throw new NoSuchFileException(NO_SUCH_FILE_EXCEPTION);
 			Files.copy(orig, Paths.get(target).resolve(orig.getFileName()));
-		} catch (FileNotFoundException fnfe) {
+		} catch (NoSuchFileException fnfe) {
 			System.err.println(fnfe.getMessage());
 		} catch (FileAlreadyExistsException faee) {
 			System.err.println(faee.getMessage());
@@ -115,10 +114,10 @@ public class FileManager {
 	public static void moveFile(String source, String target) {
 		try {
 			if (!isFileExists(source))
-				throw new FileNotFoundException();
+				throw new NoSuchFileException(NO_SUCH_FILE_EXCEPTION);
 			Path orig = Paths.get(source);
 			Files.move(orig, Paths.get(target).resolve(orig.getFileName()));
-		} catch (FileNotFoundException fnfe) {
+		} catch (NoSuchFileException fnfe) {
 			System.err.println(fnfe.getMessage());
 		} catch (FileAlreadyExistsException faee) {
 			System.err.println(faee.getMessage());
@@ -131,10 +130,10 @@ public class FileManager {
 	public static void renameFile(String source, String targetName) {
 		try {
 			if (!isFileExists(source))
-				throw new FileNotFoundException();
+				throw new NoSuchFileException(NO_SUCH_FILE_EXCEPTION);
 			Path orig = Paths.get(source);
 			Files.move(orig, orig.resolveSibling(targetName));
-		} catch (FileNotFoundException fnfe) {
+		} catch (NoSuchFileException fnfe) {
 			System.err.println(fnfe.getMessage());
 		} catch (FileAlreadyExistsException faee) {
 			System.err.println(faee.getMessage());
@@ -159,8 +158,6 @@ public class FileManager {
 		try (ReadableByteChannel readChannel = Channels.newChannel(new URL(link).openStream());
 				FileOutputStream outputStream = new FileOutputStream(target);
 				FileChannel outputChannel =  outputStream.getChannel()) {
-			if (isFileExists(target))
-				throw new FileAlreadyExistsException(FILE_ALREADY_EXISTS_EXCEPTION_MSG);
 			outputChannel.transferFrom(readChannel, 0, Long.MAX_VALUE);
 		} catch (FileAlreadyExistsException faee) {
 			System.err.println(faee.getMessage());

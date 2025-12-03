@@ -1,19 +1,25 @@
 package xyz.peasfultown.entity;
 
-public class Student {
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Student implements Serializable {
+    private static final long serialVersionUID = 6L;
 	private static int count = 0;
 	private static String college;
 	private static int money;
 	
-	private final int id;
+	private int id;
 	private String name;
 
-	public Student(String name) throws Exception {
+	public Student(String name) throws TooManyStudentsException {
 		if (count < 7) {
 			this.id = count++;
 			this.name = name;			
 		} else {
-			throw new Exception("Not allowed to create more than 7 Students");
+			throw new TooManyStudentsException();
 		}
 	}
 
@@ -22,7 +28,7 @@ public class Student {
 			this.id = id;
 			this.name = name;			
 		} else {
-			throw new Exception("Not allowed to create more than 7 Students");
+			throw new TooManyStudentsException();
 		}
 	}
 
@@ -44,6 +50,10 @@ public class Student {
 
 	public int getId() {
 		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -79,8 +89,22 @@ public class Student {
 		System.out.printf("College: %s\n", Student.getCollege());
 	}
 	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeInt(this.getId());
+		out.writeUTF(this.getName());
+	}
+	
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+		this.setId(in.readInt());
+		this.setName(in.readUTF());
+	}
+	
+	private void readObjectNoData() {
+
+	}
+	
 	@Override
 	public String toString() {
-		return String.format("Student = ID: %d, name: %s, college: %s", this.id, this.name, Student.getCollege());
+		return String.format("Student ID: %d, name: %s, college: %s", this.id, this.name, Student.getCollege());
 	}
 }
