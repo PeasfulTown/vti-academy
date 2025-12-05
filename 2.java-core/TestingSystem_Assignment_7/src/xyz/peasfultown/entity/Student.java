@@ -14,8 +14,8 @@ public class Student implements Serializable {
 	private int id;
 	private String name;
 
-	public Student(String name) throws TooManyStudentsException {
-		if (count < 7) {
+	public Student(String name) {
+		if (count < Configs.MAX_NUMBER_OF_STUDENTS) {
 			this.id = count++;
 			this.name = name;			
 		} else {
@@ -23,8 +23,8 @@ public class Student implements Serializable {
 		}
 	}
 
-	public Student(int id, String name) throws Exception {
-		if (count < 7) {
+	public Student(int id, String name) {
+		if (count < Configs.MAX_NUMBER_OF_STUDENTS) {
 			this.id = id;
 			this.name = name;			
 		} else {

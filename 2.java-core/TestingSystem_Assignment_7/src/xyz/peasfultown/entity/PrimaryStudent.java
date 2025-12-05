@@ -2,7 +2,7 @@ package xyz.peasfultown.entity;
 
 public final class PrimaryStudent extends Student {
 	private static int count = 0;
-	public PrimaryStudent(String name) throws Exception {
+	public PrimaryStudent(String name) {
 		super(count++, name);
 	}
 	

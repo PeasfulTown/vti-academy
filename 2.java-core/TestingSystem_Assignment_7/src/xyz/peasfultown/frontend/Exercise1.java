@@ -14,23 +14,21 @@ import xyz.peasfultown.entity.ShapeException;
 public class Exercise1 {
 	private Scanner scanner;
 	private Exercise1Controller ex1;
+
 	public Exercise1(Scanner scanner, Exercise1Controller ex1) {
 		this.scanner = scanner;
 		this.ex1 = ex1;
 	}
-	
+
 	public void run() {
 		while (true) {
 			System.out.println("Testing System 7 Menu");
-			ScannerUtils.printOptions(
-					"Question 1: Print Student college",
-					"Question 2: Group money",
-					"Question 3: MyMath",
-					"Question 6: Student/PrimaryStudent/SecondaryStudent counts",
-					"Question 8: ShapeException demo"
-			);
-			
-			int usrop = ScannerUtils.inputInt(this.scanner, "Enter option: ", "Input must be a positive number, try again");
+			ScannerUtils.printOptions("Question 1: Print Student college", "Question 2: Group money",
+					"Question 3: MyMath", "Question 6: Student/PrimaryStudent/SecondaryStudent counts",
+					"Question 8: ShapeException demo");
+
+			int usrop = ScannerUtils.inputInt(this.scanner, "Enter option: ",
+					"Input must be a positive number, try again");
 			switch (usrop) {
 			case 0:
 				return;
@@ -49,13 +47,13 @@ public class Exercise1 {
 			case 5:
 				this.question8(this.scanner);
 				break;
-			default: 
+			default:
 				System.out.println("Invalid option, try again");
 				break;
 			}
 		}
 	}
-	
+
 	private void question3(Scanner scanner) {
 		int mathin1 = ScannerUtils.inputInt(scanner, "Enter first number: ");
 		int mathin2 = ScannerUtils.inputInt(scanner, "Enter second number: ");
@@ -63,7 +61,7 @@ public class Exercise1 {
 		this.ex1.question3_min(mathin1, mathin2);
 		this.ex1.question3_sum(mathin1, mathin2);
 	}
-	
+
 	private void question8(Scanner scanner) {
 		ArrayList<Shape> shapes = new ArrayList<>();
 		while (true) {
@@ -78,11 +76,10 @@ public class Exercise1 {
 				float width = ScannerUtils.inputFloat(scanner, "Enter rectangle width: ", "Invalid input, try again");
 				try {
 					Rectangle rec = new Rectangle(length, width);
-					this.ex1.addShape(rec);						
+					this.ex1.addShape(rec);
 					rec.showInfo();
-				}
-				catch (ShapeException e) {
-					System.err.println(e.getMessage());					
+				} catch (ShapeException e) {
+					System.err.println(e.getMessage());
 				}
 				break;
 			case 2:
@@ -98,7 +95,7 @@ public class Exercise1 {
 			case 3:
 				this.ex1.showShapesInfo();
 				break;
-			default: 
+			default:
 				System.out.println("Invalid option, try again");
 				break;
 			}
