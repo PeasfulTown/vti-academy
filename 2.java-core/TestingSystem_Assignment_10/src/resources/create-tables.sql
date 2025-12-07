@@ -1,6 +1,7 @@
-DROP DATABASE IF EXISTS db_testing_system;
 CREATE DATABASE IF NOT EXISTS db_testing_system;
 USE db_testing_system;
+
+DROP PROCEDURE IF EXISTS sp_delete_department;
 
 DROP TABLE IF EXISTS `exam_question`;
 DROP TABLE IF EXISTS `exam`;
@@ -42,7 +43,7 @@ CREATE TABLE `position`(
 CREATE TABLE `account`(
 	account_id		SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     email			VARCHAR(40) NOT NULL UNIQUE KEY,
-    username		VARCHAR(10) NOT NULL UNIQUE KEY,
+    username		VARCHAR(20) NOT NULL UNIQUE KEY,
     fullname		VARCHAR(50) NOT NULL,
     gender			ENUM('M', 'F', 'U') NOT NULL DEFAULT 'U',
     department_id	SMALLINT UNSIGNED,
@@ -158,6 +159,14 @@ CREATE TABLE `exam_question`(
     FOREIGN KEY(question_id)
 		REFERENCES `question`(question_id) ON DELETE CASCADE
 );
+
+-- PROCEDURES
+DELIMITER $$
+CREATE PROCEDURE sp_delete_department(IN in_dep_id INT) 
+	BEGIN 
+		DELETE FROM department WHERE department_id = in_dep_id;
+	END $$
+DELIMITER ;
 
 -- TABLE RECORDS
 -- department (department_name) 
