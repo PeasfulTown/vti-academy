@@ -12,6 +12,7 @@ import java.util.List;
 
 import xyz.peasfultown.dao.GroupDAO;
 import xyz.peasfultown.entity.Account;
+import xyz.peasfultown.entity.DatabaseException;
 import xyz.peasfultown.entity.Department;
 import xyz.peasfultown.entity.Position;
 import xyz.peasfultown.entity.Gender;
@@ -49,7 +50,7 @@ public class MySQLGroupDAO implements GroupDAO {
 	private static final String DELETE_STRG = "DELETE FROM `group` WHERE group_id = ?";
 
 	@Override
-	public void create(String name, Account creator) throws SQLException {
+	public void create(String name, Account creator) throws DatabaseException {
 		Connection con = null;
 		PreparedStatement prstmt = null;
 		try {
@@ -63,20 +64,16 @@ public class MySQLGroupDAO implements GroupDAO {
 
 			con.commit();
 		} catch (SQLException sqle) {
-			con.rollback();
-			throw sqle;
+			JDBCUtils.rollback(con);
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		} finally {
-			if (con != null) {
-				con.setAutoCommit(true);
-				con.close();
-			}
-			if (prstmt != null)
-				prstmt.close();
+			JDBCUtils.close(con);
+			JDBCUtils.close(prstmt);
 		}
 	}
 
 	@Override
-	public List<Group> read() throws SQLException {
+	public List<Group> read() throws DatabaseException {
 		List<Group> groups = new ArrayList<>();
 		try (Connection con = JDBCUtils.getConnection();
 				Statement stmt = con.createStatement();
@@ -97,13 +94,13 @@ public class MySQLGroupDAO implements GroupDAO {
 				groups.add(g);
 			}
 		} catch (SQLException sqle) {
-			throw sqle;
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		}
 		return groups;
 	}
 
 	@Override
-	public Group read(int id) throws SQLException {
+	public Group read(int id) throws DatabaseException {
 		ResultSet rs = null;
 		Group group = null;
 		
@@ -124,19 +121,17 @@ public class MySQLGroupDAO implements GroupDAO {
 				Account creator = new Account(cid, cemail, cusr, cname, cg, cdep ,cpos, cdate);
 				
 				group = new Group(rs.getInt("group_id"), rs.getString("group_name"), creator, rs.getTimestamp("g_create_date").toLocalDateTime());
-				
 			}
 		} catch (SQLException sqle) {
-			throw sqle;
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		} finally {
-			if (rs != null)
-				rs.close();
+			JDBCUtils.close(rs);
 		}
 		return group;
 	}
 
 	@Override
-	public void update(int id, String newName) throws SQLException {
+	public void update(int id, String newName) throws DatabaseException {
 		Connection con = null;
 		PreparedStatement prstmt = null;
 		try {
@@ -150,23 +145,17 @@ public class MySQLGroupDAO implements GroupDAO {
 			
 			con.commit();
 		} catch (SQLException sqle) {
-			if (con != null)
-				con.rollback();
-			throw sqle;
+			JDBCUtils.rollback(con);
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		} finally {
-			if (con != null) {
-				con.setAutoCommit(true);
-				con.close();
-			}
-			
-			if (prstmt != null)
-				prstmt.close();
+			JDBCUtils.close(con);
+			JDBCUtils.close(prstmt);
 		}
 
 	}
 
 	@Override
-	public void delete(int id) throws SQLException {
+	public void delete(int id) throws DatabaseException {
 		Connection con = null;
 		PreparedStatement prstmt = null;
 		try {
@@ -175,21 +164,15 @@ public class MySQLGroupDAO implements GroupDAO {
 			
 			prstmt = con.prepareStatement(DELETE_STRG);
 			prstmt.setInt(1, id);
-			prstmt.executeLargeUpdate();
+			prstmt.executeUpdate();
 			
 			con.commit();
 		} catch (SQLException sqle) {
-			if (con != null)
-				con.rollback();
-			throw sqle;
+			JDBCUtils.rollback(con);
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		} finally {
-			if (con != null) {
-				con.setAutoCommit(true);
-				con.close();
-			}
-			
-			if (prstmt != null)
-				prstmt.close();
+			JDBCUtils.close(con);
+			JDBCUtils.close(prstmt);
 		}
 	}
 

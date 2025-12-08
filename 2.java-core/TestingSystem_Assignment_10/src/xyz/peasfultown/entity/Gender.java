@@ -1,7 +1,16 @@
 package xyz.peasfultown.entity;
 
 public enum Gender {
-	MALE, FEMALE, UNKNOWN;
+	MALE('M'), FEMALE('F'), UNKNOWN('U');
+	private char gender;
+	
+	private Gender(char g) {
+		this.gender = g;
+	}
+	
+	public char getGender() {
+		return this.gender;
+	}
 	
 	public static Gender getGender(char c) {
 		switch (c) {

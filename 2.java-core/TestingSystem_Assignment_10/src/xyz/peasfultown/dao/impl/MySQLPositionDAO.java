@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xyz.peasfultown.dao.PositionDAO;
+import xyz.peasfultown.entity.DatabaseException;
 import xyz.peasfultown.entity.Position;
 import xyz.peasfultown.utils.JDBCUtils;
 
@@ -20,7 +21,7 @@ public class MySQLPositionDAO implements PositionDAO {
 	private static final String DELETE_STRG = "DELETE FROM position WHERE position_id = ?";
 
 	@Override
-	public void create(String name) throws SQLException {
+	public void create(String name) throws DatabaseException {
 		Connection con = null;
 		PreparedStatement prstmt = null;
 		try {
@@ -33,21 +34,16 @@ public class MySQLPositionDAO implements PositionDAO {
 			
 			con.commit();
 		} catch (SQLException sqle) {
-			if (con != null)
-				con.rollback();
-			throw sqle;
+			JDBCUtils.rollback(con);
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		} finally {
-			if (con != null) {
-				con.setAutoCommit(true);
-				con.close();
-			}
-			if (prstmt != null)
-				prstmt.close();
+			JDBCUtils.close(con);
+			JDBCUtils.close(prstmt);
 		}
 	}
 
 	@Override
-	public List<Position> read() throws SQLException {
+	public List<Position> read() throws DatabaseException {
 		List<Position> positions = new ArrayList<>();
 		try (Connection con = JDBCUtils.getConnection();
 				Statement stmt = con.createStatement();
@@ -57,13 +53,13 @@ public class MySQLPositionDAO implements PositionDAO {
 				positions.add(pos);
 			}
 		} catch (SQLException sqle) {
-			throw sqle;
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		}
 		return positions;
 	}
 
 	@Override
-	public Position read(int id) throws SQLException {
+	public Position read(int id) throws DatabaseException {
 		ResultSet rs = null;
 		Position pos = null;
 		try (Connection con = JDBCUtils.getConnection();
@@ -71,17 +67,16 @@ public class MySQLPositionDAO implements PositionDAO {
 			prstmt.setInt(1, id);
 			rs = prstmt.executeQuery();
 			pos = new Position(rs.getInt(1), rs.getString(2));
-		} catch (SQLException sqlr) {
-			throw sqlr;
+		} catch (SQLException sqle) {
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		} finally {
-			if (rs != null)
-				rs.close();
+			JDBCUtils.close(rs);
 		}
 		return pos;
 	}
 
 	@Override
-	public void update(int id, String newName) throws SQLException {
+	public void update(int id, String newName) throws DatabaseException {
 		Connection con = null;
 		PreparedStatement prstmt = null;
 		try {
@@ -95,21 +90,16 @@ public class MySQLPositionDAO implements PositionDAO {
 			
 			con.commit();
 		} catch (SQLException sqle) {
-			if (con != null)
-				con.rollback();
-			throw sqle;
+			JDBCUtils.rollback(con);
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		} finally {
-			if (con != null) {
-				con.setAutoCommit(true);
-				con.close();
-			}
-			if (prstmt != null)
-				prstmt.close();
+			JDBCUtils.close(con);
+			JDBCUtils.close(prstmt);
 		}
 	}
 
 	@Override
-	public void delete(int id) throws SQLException {
+	public void delete(int id) throws DatabaseException {
 		Connection con = null;
 		PreparedStatement prstmt = null;
 		try {
@@ -122,16 +112,11 @@ public class MySQLPositionDAO implements PositionDAO {
 			
 			con.commit();
 		} catch (SQLException sqle) {
-			if (con != null)
-				con.rollback();
-			throw sqle;
+			JDBCUtils.rollback(con);
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		} finally {
-			if (con != null) {
-				con.setAutoCommit(true);
-				con.close();
-			}
-			if (prstmt != null)
-				prstmt.close();
+			JDBCUtils.close(con);
+			JDBCUtils.close(prstmt);
 		}
 	}
 
