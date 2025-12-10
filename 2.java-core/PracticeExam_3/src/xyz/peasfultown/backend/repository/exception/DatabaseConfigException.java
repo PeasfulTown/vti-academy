@@ -1,4 +1,4 @@
-package xyz.peasfultown.entity;
+package xyz.peasfultown.backend.repository.exception;
 
 public class DatabaseConfigException extends DatabaseException {
 	public DatabaseConfigException(String msg) {

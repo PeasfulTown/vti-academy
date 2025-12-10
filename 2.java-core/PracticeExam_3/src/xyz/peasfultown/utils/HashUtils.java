@@ -39,6 +39,10 @@ public class HashUtils {
 		}
 	}
 	
+	public static String generateHash(String in) throws UserHashException {
+		return generateHash(in.toCharArray());
+	}
+	
 	public static boolean auth(char[] in, String token) throws UserHashException {
 		byte[] tkbt = Base64.getUrlDecoder().decode(token);
 		byte[] salt = new byte[SIZE / 8];

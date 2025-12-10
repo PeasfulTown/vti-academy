@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-import xyz.peasfultown.entity.DatabaseConfigException;
-import xyz.peasfultown.entity.DatabaseException;
+import xyz.peasfultown.backend.repository.exception.DatabaseConfigException;
+import xyz.peasfultown.backend.repository.exception.DatabaseException;
 import xyz.peasfultown.entity.AppException;
 
 public class JDBCUtils {

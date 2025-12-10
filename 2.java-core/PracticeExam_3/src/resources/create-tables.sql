@@ -63,10 +63,10 @@ FOR EACH ROW
 DELIMITER ;
 
 INSERT INTO `user` (fullname, email, pass, `type`) 
-VALUES 	("admin1"		, "admin1@example.com"		, 'NdlqTSCEvBLlKe-aQKhO-1fSzRaJZND0gfOzBoF0LnY='	, "admin"),
-		("empl1"		, "empl1@example.com.vn"	, 'M26MqDTUj_WHbv583ZsZe6DXA8lnvi12UEKOYwn15mA='		, "employee"),
-        ("empl2"		, "empl2@example.com.vn"	, 'M26MqDTUj_WHbv583ZsZe6DXA8lnvi12UEKOYwn15mA='		, "employee"),
-        ("admin2"		, "admin2@example.com"		, 'NdlqTSCEvBLlKe-aQKhO-1fSzRaJZND0gfOzBoF0LnY='			, "admin");
+VALUES 	("admin1"		, "admin1@example.com"		, 'CO5D_qS2JMcU3QHSYLl-svysgmgvh2k01CfXcvz0r1k='	, "admin"),
+		("empl1"		, "empl1@example.com.vn"	, '8_MHvM9KK0Zy53Ysvj49wC5gf85uKxFR-g4pCKUU20s='	, "employee"),
+        ("empl2"		, "empl2@example.com.vn"	, 'R7Si8CfcVBmuffvviAg4Evm7SNKp-HntVP2jlAShb4g='	, "employee"),
+        ("admin2"		, "admin2@example.com"		, '31332PyAdxNpUyZXq6ZHXIBGmftllnUEiEpAwm9pqQU='	, "admin");
 
 INSERT INTO `admin` (admin_id, years_of_experience)
 VALUES 	(1 , 3), (4 , 2);
@@ -100,4 +100,31 @@ IF (u.`type` = "employee", s.`name`, null) AS skill_name
 FROM `user` u
 LEFT JOIN `admin` a ON u.id = a.admin_id AND u.`type` = "admin"
 LEFT JOIN employee e ON u.id = e.employee_id AND u.`type` = "employee"
-LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = "employee" WHERE u.email = "";
+LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = "employee" WHERE u.email = "admin1@example.com";
+
+SELECT u.id, u.fullname, u.email, u.pass, u.`type`, 
+IF(u.`type` = "admin", a.years_of_experience, null) AS years_of_experience, 
+IF (u.`type` = "employee", s.id, null) AS skill_id, 
+IF (u.`type` = "employee", s.`name`, null) AS skill_name
+FROM `user` u
+LEFT JOIN `admin` a ON u.id = a.admin_id AND u.`type` = "admin"
+LEFT JOIN employee e ON u.id = e.employee_id AND u.`type` = "employee"
+LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = "employee" WHERE u.id = 1;
+
+SELECT u.id, u.fullname, u.email, u.pass, u.`type`, 
+IF(u.`type` = "admin", a.years_of_experience, null) AS years_of_experience, 
+IF (u.`type` = "employee", s.id, null) AS skill_id, 
+IF (u.`type` = "employee", s.`name`, null) AS skill_name
+FROM `user` u
+LEFT JOIN `admin` a ON u.id = a.admin_id AND u.`type` = "admin"
+LEFT JOIN employee e ON u.id = e.employee_id AND u.`type` = "employee"
+LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = "employee";
+
+SELECT u.fullname, u.email, u.pass, u.`type`, 
+IF(u.`type` = "admin", a.years_of_experience, null) AS years_of_experience, 
+IF(u.`type` = "employee", s.id, null) AS skill_id, 
+IF(u.`type` = "employee", s.`name`, null) AS skill_name 
+FROM `user` u 
+LEFT JOIN `admin` a ON u.id = a.admin_id AND u.`type` = "admin"
+LEFT JOIN employee e ON u.id = e.employee_id AND u.`type` = "employee" 
+LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = "employee" WHERE u.id = 1;

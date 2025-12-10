@@ -1,4 +1,4 @@
-package xyz.peasfultown.dao.impl;
+package xyz.peasfultown.backend.repository.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,53 +8,59 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.peasfultown.dao.UserDAO;
+import xyz.peasfultown.backend.repository.IUserRepository;
+import xyz.peasfultown.backend.repository.exception.DatabaseException;
 import xyz.peasfultown.entity.Admin;
-import xyz.peasfultown.entity.DatabaseLoginException;
-import xyz.peasfultown.entity.DatabaseException;
 import xyz.peasfultown.entity.Employee;
 import xyz.peasfultown.entity.Skill;
 import xyz.peasfultown.entity.User;
-import xyz.peasfultown.entity.UserHashException;
-import xyz.peasfultown.utils.HashUtils;
+import xyz.peasfultown.entity.UserType;
 import xyz.peasfultown.utils.JDBCUtils;
 
-public class MySQLUserDAO implements UserDAO {
+public class MySQLUserRepository implements IUserRepository {
 	// EXCEPTIONS
 	private final String CREATE_EXCPT = "Unable to create admin account";
-	private final String LOGIN_EXCPT = "Unable to log in to account";
+	private final String AUTH_USER_HASH_EXCPT = "Unable to authenticare user, unable to hash user password";
+	private final String AUTH_INCORRECT_PASSWORD_EXCPT = "Unable to authenticare user, password not matching user in database";
 	private final String USER_TYPE_EXCPT = "Unable to log in to account, unable to determine type of user";
+	private final String DELETE_USER_EXCPT = "Unable to delete user";
 
 	// MYSQL
 	private final String CREATE_USER_STRG = "INSERT INTO `user` (fullname, email, pass, `type`) VALUE (?, ?, ?, ?)";
 	private final String CREATE_EMPLOYEE_STRG = "INSERT INTO employee (employee_id, skill_id) VALUE (?, ?)";
 	private final String CREATE_SKILL_STRG = "INSERT INTO skill (`name`) VALUE (?)";
+	
+	private final String DELETE_USER_STRG = "DELETE FROM `user` WHERE id = ?;";
 
 	private final String READ_USER_STRG = "SELECT u.id, u.fullname, u.email, u.pass, u.`type`, "
-			+ "IF (u.`type` = \"admin\", a.years_of_experience, null) AS years_of_experience, "
+			+ "IF(u.`type` = \"admin\", a.years_of_experience, null) AS years_of_experience, "
 			+ "IF (u.`type` = \"employee\", s.id, null) AS skill_id, "
-			+ "IF (u.`type` = \"employee\", s.`name`, null) AS skill_name FROM `user` u "
+			+ "IF (u.`type` = \"employee\", s.`name`, null) AS skill_name "
+			+ "FROM `user` u "
 			+ "LEFT JOIN `admin` a ON u.id = a.admin_id AND u.`type` = \"admin\" "
 			+ "LEFT JOIN employee e ON u.id = e.employee_id AND u.`type` = \"employee\" "
-			+ "LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = \"employee\" ";
-	private final String READ_USER_BY_ID_STRG = "SELECT u.fullname, u.email, u.pass, u.`type`, "
-			+ "IF (u.`type` = \"admin\", a.years_of_experience, null) AS years_of_experience, "
+			+ "LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = \"employee\";";
+	private final String READ_USER_BY_ID_STRG = "SELECT u.id, u.fullname, u.email, u.pass, u.`type`, "
+			+ "IF(u.`type` = \"admin\", a.years_of_experience, null) AS years_of_experience, "
 			+ "IF (u.`type` = \"employee\", s.id, null) AS skill_id, "
-			+ "IF (u.`type` = \"employee\", s.`name`, null) AS skill_name FROM `user` u "
+			+ "IF (u.`type` = \"employee\", s.`name`, null) AS skill_name "
+			+ "FROM `user` u "
 			+ "LEFT JOIN `admin` a ON u.id = a.admin_id AND u.`type` = \"admin\" "
 			+ "LEFT JOIN employee e ON u.id = e.employee_id AND u.`type` = \"employee\" "
-			+ "LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = \"employee\" WHERE u.id = ?";
-	private final String READ_BY_EMAIL_STRG = "SELECT u.id, u.fullname, u.email, u.pass, u.`type`, "
-			+ "IF (u.`type` = \"admin\", a.years_of_experience, null) AS years_of_experience, "
+			+ "LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = \"employee\" WHERE u.id = ?;";
+	private final String READ_USER_BY_EMAIL_STRG = "SELECT u.id, u.fullname, u.email, u.pass, u.`type`, "
+			+ "IF(u.`type` = \"admin\", a.years_of_experience, null) AS years_of_experience, "
 			+ "IF (u.`type` = \"employee\", s.id, null) AS skill_id, "
-			+ "IF (u.`type` = \"employee\", s.`name`, null) AS skill_name FROM `user` u "
+			+ "IF (u.`type` = \"employee\", s.`name`, null) AS skill_name "
+			+ "FROM `user` u "
 			+ "LEFT JOIN `admin` a ON u.id = a.admin_id AND u.`type` = \"admin\" "
 			+ "LEFT JOIN employee e ON u.id = e.employee_id AND u.`type` = \"employee\" "
-			+ "LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = \"employee\" WHERE u.email = ? ";
-	private final String READ_SKILL_BY_NAME = "SELECT id, `name` FROM skill WHERE `name` = ?";
+			+ "LEFT JOIN skill s ON e.skill_id = s.id AND u.`type` = \"employee\" WHERE u.email = ?;";
+	private final String READ_SKILL_BY_NAME_STRG = "SELECT id, `name` FROM skill WHERE `name` = ?;";
+	
 
 	@Override
-	public void createEmployee(String fullname, String email, String pass, String skill) throws DatabaseException, UserHashException {
+	public void createEmployee(String fullname, String email, String pass, String skill) throws DatabaseException {
 		Connection con = null;
 		PreparedStatement prstmt = null;
 		ResultSet rs = null;
@@ -66,7 +72,7 @@ public class MySQLUserDAO implements UserDAO {
 			prstmt = con.prepareStatement(CREATE_USER_STRG, Statement.RETURN_GENERATED_KEYS);
 			prstmt.setString(1, fullname);
 			prstmt.setString(2, email);
-			prstmt.setString(3, HashUtils.generateHash(pass.toCharArray()));
+			prstmt.setString(3, pass);
 			prstmt.setString(4, "employee");
 			prstmt.executeUpdate();
 			rs = prstmt.getGeneratedKeys();
@@ -151,58 +157,64 @@ public class MySQLUserDAO implements UserDAO {
 		}
 		return null;
 	}
-
+	
 	@Override
-	public User auth(String email, String password) throws DatabaseException, UserHashException {
+	public User read(String email) throws DatabaseException {
+		ResultSet rs = null;
 		try (Connection con = JDBCUtils.getConnection();
-				PreparedStatement prstmt = con.prepareStatement(READ_BY_EMAIL_STRG)) {
+				PreparedStatement prstmt = con.prepareStatement(READ_USER_BY_EMAIL_STRG)) {
 			prstmt.setString(1, email);
-			try (ResultSet rs = prstmt.executeQuery()) {
-				if (rs.next()) {
-					int id = rs.getInt(1);
-					String fn = rs.getString(2);
-					String em = rs.getString(3);
-					String token = rs.getString(4);
-					String type = rs.getString(5);
-					if (!HashUtils.auth(password, token))
-						throw new DatabaseLoginException(LOGIN_EXCPT);
-					if (type.equals("admin")) {
-						short yoe = rs.getShort(6);
-						return new Admin(id, fn, em, token, yoe);
-					} else if (type.equals("employee")) {
-						Skill skill = new Skill(rs.getShort(7), rs.getString(8));
-						return new Employee(id, fn, em, token, skill);
-					} else {
-						throw new DatabaseException(USER_TYPE_EXCPT);
-					}
+			rs = prstmt.executeQuery();
+			if (rs.next()) {
+				int id = rs.getInt(1);
+				String fullname = rs.getString(2);
+				String pass = rs.getString(4);
+				String type = rs.getString(5);
+				if (type.equalsIgnoreCase(UserType.ADMIN.name())) {
+					short yoe = rs.getShort(6);
+					return new Admin(id, fullname, email, pass, yoe);
+				} else {
+					Skill skill = new Skill(rs.getShort(7), rs.getString(8));
+					return new Employee(id, fullname, email, pass, skill);
 				}
+			} else {
+				return null;	
 			}
 		} catch (SQLException sqle) {
 			throw new DatabaseException(sqle.getMessage(), sqle);
+		} finally {
+			JDBCUtils.close(rs);
 		}
-		return null;
 	}
-
+	
 	@Override
 	public boolean isAdmin(String email) throws DatabaseException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isAdmin(User user) throws DatabaseException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void delete(int id) throws DatabaseException {
-		// TODO Auto-generated method stub
-
+		Connection con = null;
+		PreparedStatement prstmt = null;
+		try {
+			con = JDBCUtils.getConnection();
+			con.setAutoCommit(false);
+			prstmt = con.prepareStatement(DELETE_USER_STRG);
+			prstmt.setInt(1, id);
+			prstmt.executeUpdate();
+			
+			con.commit();
+		} catch (SQLException sqle) {
+			JDBCUtils.rollback(con);
+			throw new DatabaseException(DELETE_USER_EXCPT, sqle);
+		} finally {
+			JDBCUtils.close(con);
+			JDBCUtils.close(prstmt);
+		}
 	}
 
-	private Skill readSkill(Connection con, String skillName) throws SQLException {
-		try (PreparedStatement prstmt = con.prepareStatement(READ_SKILL_BY_NAME)) {
+	private Skill readSkill(Connection con, String skillName) throws DatabaseException {
+		try (PreparedStatement prstmt = con.prepareStatement(READ_SKILL_BY_NAME_STRG)) {
 			prstmt.setString(1, skillName);
 			try (ResultSet rs = prstmt.executeQuery()) {
 				if (rs.next())
@@ -210,10 +222,12 @@ public class MySQLUserDAO implements UserDAO {
 				else
 					return null;
 			}
+		} catch (SQLException sqle) {
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		}
 	}
 	
-	private Skill createSkill(Connection con, String skillName) throws SQLException {
+	private Skill createSkill(Connection con, String skillName) throws DatabaseException {
 		try (PreparedStatement prstmt = con.prepareStatement(CREATE_SKILL_STRG, Statement.RETURN_GENERATED_KEYS)) {
 			prstmt.setString(1, skillName);
 			prstmt.executeUpdate();
@@ -223,6 +237,8 @@ public class MySQLUserDAO implements UserDAO {
 				else 
 					return null;
 			}
+		} catch (SQLException sqle) {
+			throw new DatabaseException(sqle.getMessage(), sqle);
 		}
 	}
 }
