@@ -9,8 +9,8 @@ import xyz.peasfultown.backend.service.IUserService;
 import xyz.peasfultown.backend.service.exception.ServiceException;
 import xyz.peasfultown.backend.service.exception.ServiceIncorrectLoginInformationException;
 import xyz.peasfultown.entity.User;
-import xyz.peasfultown.entity.UserHashException;
 import xyz.peasfultown.utils.HashUtils;
+import xyz.peasfultown.utils.UserHashException;
 
 public class SimpleUserService implements IUserService {
 	private final String AUTH_INVALID_CREDENTIALS_EXCPT = "Unable to authenticate user, invalid credentials";

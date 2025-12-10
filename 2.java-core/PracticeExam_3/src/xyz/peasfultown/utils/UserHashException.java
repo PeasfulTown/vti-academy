@@ -1,6 +1,6 @@
-package xyz.peasfultown.entity;
+package xyz.peasfultown.utils;
 
-public class UserHashException extends AppException {
+public class UserHashException extends Exception {
 	public UserHashException(String msg) {
 		super(msg);
 	}
