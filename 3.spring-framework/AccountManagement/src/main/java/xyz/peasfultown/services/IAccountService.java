@@ -1,17 +1,20 @@
 package xyz.peasfultown.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import xyz.peasfultown.forms.AccountCreationForm;
 import xyz.peasfultown.forms.AccountUpdateForm;
 import xyz.peasfultown.models.Account;
 
 import java.util.List;
 
-public interface IAccountService {
+public interface IAccountService extends UserDetailsService {
   Account create(AccountCreationForm form);
 
   Account update(short id, AccountUpdateForm form);
 
-  List<Account> getAll();
+  Page<Account> getAll(String search, Pageable pageable);
 
   Account getLatest();
 

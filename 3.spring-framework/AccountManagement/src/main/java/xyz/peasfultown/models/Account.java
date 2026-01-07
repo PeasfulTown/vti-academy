@@ -8,86 +8,108 @@ import java.util.Date;
 @Entity
 @Table(name = "`Account`", catalog = "Testing_System")
 public class Account {
-  @Column(name = "AccountID")
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private short id;
+    @Column(name = "AccountID")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private short id;
 
-  @Column(name = "Email", length = 50, nullable = false, unique = true)
-  private String email;
+    @Column(name = "Email", length = 50, nullable = false, unique = true)
+    private String email;
 
-  @Column(name = "Username", length = 50, nullable = false, unique = true)
-  private String username;
+    @Column(name = "Username", length = 50, nullable = false, unique = true)
+    private String username;
 
-  @Column(name = "Fullname", length = 50, nullable = false)
-  private String fullname;
+    @Column(name = "Fullname", length = 50, nullable = false)
+    private String fullname;
 
-  @ManyToOne
-  @JoinColumn(name = "DepartmentID", nullable = false)
-  private Department department;
+    @Column(name = "Password", length = 50, nullable = false)
+    private String password;
 
-  @ManyToOne
-  @JoinColumn(name = "PositionID", nullable = false)
-  private Position position;
+    @ManyToOne
+    @JoinColumn(name = "DepartmentID", nullable = false)
+    private Department department;
 
-  @Column(name = "CreateDate")
-  @Temporal(TemporalType.TIMESTAMP)
-  @CreationTimestamp
-  private Date createDate;
+    @ManyToOne
+    @JoinColumn(name = "PositionID", nullable = false)
+    private Position position;
 
-  public Date getCreateDate() {
-    return createDate;
-  }
+    @Column(name = "CreateDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
+    private Date createDate;
 
-  public void setCreateDate(Date createDate) {
-    this.createDate = createDate;
-  }
+    @Column(name = "Role", nullable = false)
+    private String role;
 
-  public Department getDepartment() {
-    return department;
-  }
+    public short getId() {
+        return id;
+    }
 
-  public void setDepartment(Department department) {
-    this.department = department;
-  }
+    public void setId(short id) {
+        this.id = id;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public String getFullname() {
-    return fullname;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public void setFullname(String fullname) {
-    this.fullname = fullname;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public short getId() {
-    return id;
-  }
+    public String getFullname() {
+        return fullname;
+    }
 
-  public void setId(short id) {
-    this.id = id;
-  }
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
-  public Position getPosition() {
-    return position;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setPosition(Position position) {
-    this.position = position;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public Department getDepartment() {
+        return department;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

@@ -7,69 +7,69 @@ import xyz.peasfultown.models.Position;
 import java.util.Date;
 
 public class AccountDTO {
-  private short id;
-  private String email;
-  private String username;
-  private String fullname;
-  private Department department;
-  private Position position;
+    private short id;
+    private String email;
+    private String username;
+    private String fullname;
+    private String department;
+    private String position;
 
-  @JsonFormat(pattern = "yyyy-MM-dd")
-  private Date createDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createDate;
 
-  public Date getCreateDate() {
-    return createDate;
-  }
+    public short getId() {
+        return id;
+    }
 
-  public void setCreateDate(Date createDate) {
-    this.createDate = createDate;
-  }
+    public void setId(short id) {
+        this.id = id;
+    }
 
-  public Department getDepartment() {
-    return department;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setDepartment(Department department) {
-    this.department = department;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public String getFullname() {
-    return fullname;
-  }
+    public String getFullname() {
+        return fullname;
+    }
 
-  public void setFullname(String fullname) {
-    this.fullname = fullname;
-  }
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
 
-  public short getId() {
-    return id;
-  }
+    public String getDepartment() {
+        return department;
+    }
 
-  public void setId(short id) {
-    this.id = id;
-  }
+    public void setDepartmentName(String department) {
+        this.department = department;
+    }
 
-  public Position getPosition() {
-    return position;
-  }
+    public String getPosition() {
+        return position;
+    }
 
-  public void setPosition(Position position) {
-    this.position = position;
-  }
+    public void setPosition(String position) {
+        this.position = position;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 }
