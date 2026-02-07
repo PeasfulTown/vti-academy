@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0.44-debian
+    container_name: vti_mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_DATABASE: vtidb
+      MYSQL_USER: vtiuser
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - vti_mysql_data:/var/lib/mysql
+      - ./DB_TestingSystem.sql:/docker-entrypoint-initdb.d/DB_TestingSystem.sql:ro
+
+volumes:
+  vti_mysql_data:
