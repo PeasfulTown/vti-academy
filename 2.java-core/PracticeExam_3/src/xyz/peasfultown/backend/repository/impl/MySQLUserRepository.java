@@ -73,7 +73,7 @@ public class MySQLUserRepository implements IUserRepository {
 			prstmt.setString(1, fullname);
 			prstmt.setString(2, email);
 			prstmt.setString(3, pass);
-			prstmt.setString(4, "employee");
+			prstmt.setString(4, UserType.EMPLOYEE.toString());
 			prstmt.executeUpdate();
 			rs = prstmt.getGeneratedKeys();
 						
@@ -114,7 +114,7 @@ public class MySQLUserRepository implements IUserRepository {
 				String email = rs.getString(3);
 				String pass = rs.getString(4);
 				String type = rs.getString(5);
-				if (type.equals("admin")) {
+				if (type.equalsIgnoreCase(UserType.ADMIN.name())) {
 					short yoe = rs.getShort(6);
 					Admin admin = new Admin(id, name, email, pass, yoe);
 					users.add(admin);
@@ -142,7 +142,7 @@ public class MySQLUserRepository implements IUserRepository {
 				String email = rs.getString(2);
 				String pass = rs.getString(3);
 				String type = rs.getString(4);
-				if (type.equals("admin")) {
+				if (type.equalsIgnoreCase(UserType.ADMIN.name())) {
 					short yoe = rs.getShort(5);
 					return new Admin(id, fullname, email, pass, yoe);
 				} else {
@@ -189,6 +189,22 @@ public class MySQLUserRepository implements IUserRepository {
 	
 	@Override
 	public boolean isAdmin(String email) throws DatabaseException {
+		ResultSet rs = null;
+		try (Connection con = JDBCUtils.getConnection();
+				PreparedStatement prstmt = con.prepareStatement(READ_USER_BY_EMAIL_STRG)) {
+			prstmt.setString(1, email);
+			rs = prstmt.executeQuery();
+			if (rs.next()) {
+				if (rs.getString("type").equalsIgnoreCase(UserType.ADMIN.name()))
+					return true;
+				else
+					return false;
+			}
+		} catch (SQLException sqle) {
+			throw new DatabaseException(sqle.getMessage(), sqle);
+		} finally {
+			JDBCUtils.close(rs);
+		}
 		return false;
 	}
 

@@ -10,8 +10,6 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-import xyz.peasfultown.entity.UserHashException;
-
 public class HashUtils {
 	// EXCEPTIONS 
 	private static final String HASH_NO_SUCH_ALGO_EXCPT = "Error generating hash, specified secure random generator algorithm not found";

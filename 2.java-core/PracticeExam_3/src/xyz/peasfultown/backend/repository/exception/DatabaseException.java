@@ -2,7 +2,7 @@ package xyz.peasfultown.backend.repository.exception;
 
 import xyz.peasfultown.entity.AppException;
 
-public class DatabaseException extends AppException {
+public class DatabaseException extends Exception {
 	public DatabaseException(String msg) {
 		super(msg);
 	}
