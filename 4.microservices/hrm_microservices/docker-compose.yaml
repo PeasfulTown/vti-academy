@@ -1,0 +1,44 @@
+services:
+  db_mysql:
+    image: mysql:8.0.44-debian
+    container_name: db_hrm_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: TestingSystem
+      MYSQL_USER: vtiuser
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - vti_mysql_data:/var/lib/mysql
+      - ./mysql/db_init.sql:/docker-entrypoint-initdb.d/DB_TestingSystem_init.sql:ro
+
+  app_springboot_department:
+    image: eclipse-temurin:17-jre
+    container_name: app_hrm_springboot_department
+    depends_on:
+      - db_mysql
+    volumes:
+      - ./department/target/department-0.0.1-SNAPSHOT.jar:/app/department-0.0.1-SNAPSHOT.jar
+      - ./department/.env:/app/.env
+    working_dir: /app
+    command: java -jar department-0.0.1-SNAPSHOT.jar
+    ports:
+      - "8081:8080"
+  app_springboot_position:
+    image: eclipse-temurin:17-jre
+    container_name: app_hrm_springboot_position
+    depends_on:
+      - db_mysql
+    volumes:
+      - ./position/target/position-0.0.1-SNAPSHOT.jar:/app/position-0.0.1-SNAPSHOT.jar
+      - ./position/.env:/app/.env
+    working_dir: /app
+    command: java -jar position-0.0.1-SNAPSHOT.jar
+    ports:
+      - "8082:8080"
+
+volumes:
+  vti_mysql_data:
+
